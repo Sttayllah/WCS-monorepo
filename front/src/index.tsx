@@ -7,7 +7,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3000/',
+  uri: 'http://localhost:5000',
 });
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
@@ -22,7 +22,8 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: httpLink,
+  // authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, Link  } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Logo from './assets/logo-removebg-preview.png';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -15,12 +15,20 @@ function App() {
       <Router>
         <header className="header-wrapper">
           <div className="img-header">
-            <Link to={`/`}><img src={Logo} alt="logo" /></Link>
+            <Link to={`/`}>
+              <img src={Logo} alt="logo" />
+            </Link>
           </div>
           <div className="header-btn-wrapper">
-            <Link to={`/userzzz`}><button className="header-how">Profile</button></Link>
-            <Link to={`/login`}><button className="header-login">Log In</button></Link>
-            <Link to={`/registration`}><button className="header-signup">Sign Up</button></Link>
+            <Link to={`/userzzz`}>
+              <button className="header-how">Profile</button>
+            </Link>
+            <Link to={`/login`}>
+              <button className="header-login">Log In</button>
+            </Link>
+            <Link to={`/registration`}>
+              <button className="header-signup">Sign Up</button>
+            </Link>
           </div>
         </header>
         <Routes>
@@ -31,9 +39,15 @@ function App() {
         </Routes>
         <footer className="footer-wrapper">
           <div className="footer-logo-wrapper">
-            <div className="footer-icon-google"><BsGoogle /></div>
-            <div className="footer-icon-facebook"><FaFacebookF /></div>
-            <div className="footer-icon-twitter"><FiTwitter /></div>
+            <div className="footer-icon-google">
+              <BsGoogle />
+            </div>
+            <div className="footer-icon-facebook">
+              <FaFacebookF />
+            </div>
+            <div className="footer-icon-twitter">
+              <FiTwitter />
+            </div>
           </div>
           <div className="footer-btn-wrapper">
             <button className="footer-home">Home</button>
