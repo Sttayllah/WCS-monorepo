@@ -8,28 +8,43 @@ import { gql, useMutation } from '@apollo/client';
 import { useState } from 'react';
 
 const CREATE_USER = gql`
-  mutation Mutation($password: String!, $email: String!, $pseudo: String!) {
-    createUser(pseudo: $pseudo, password: $password, email: $email) {
+  mutation Mutation(
+    $password: String!
+    $email: String!
+    $pseudo: String!
+    $avatar: String!
+    $description: String!
+  ) {
+    createUser(
+      pseudo: $pseudo
+      password: $password
+      email: $email
+      avatar: $avatar
+      description: $description
+    ) {
+      email
       pseudo
+      description
+      avatar
     }
   }
 `;
 
 function Registration() {
   const [pseudo, setPseudo] = useState('');
-  const [mail, setMail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [createUser] = useMutation(CREATE_USER, {
     variables: {
-      email: mail,
+      email: email,
       password: password,
       pseudo: pseudo,
-      avatar: '',
-      description: '',
+      avatar: 'sdfhkqjloqsl',
+      description: 'jkfdhqsjklfhqlkfh',
     },
     onCompleted: () => console.log('ok'),
     onError(error) {
-      console.log(error);
+      console.log('EEEERRRRRRRRRRROOOOOOORRRRRR', error);
     },
   });
   return (
@@ -60,8 +75,8 @@ function Registration() {
               <input
                 type="text"
                 placeholder="Type your mail"
-                value={mail}
-                onChange={(e) => setMail(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           </label>
@@ -74,7 +89,7 @@ function Registration() {
               </div>
               <input
                 type="text"
-                placeholder="Type your username"
+                placeholder="Type your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -85,7 +100,16 @@ function Registration() {
         <div className="registration-forgot-password-container">
           <p className="registration-forgot-password">Forgot password ?</p>
         </div>
-        <button className="registration-btn" onClick={() => createUser()}>
+        <button
+          className="registration-btn"
+          onClick={() => {
+            console.log('pseudo:', pseudo);
+            console.log('mail:', email);
+            console.log('password:', password);
+
+            createUser();
+          }}
+        >
           REGISTRATION
         </button>
         <p className="signup-social">Or Sign In Using</p>

@@ -28,7 +28,7 @@ const SectionHomePage = ({
       }
     }
     return tmp;
-  }, [tableHeader.length]);
+  }, [tableHeader]);
 
   const formatedTableContent = useMemo(() => {
     let tmp: (string | undefined)[] = [];

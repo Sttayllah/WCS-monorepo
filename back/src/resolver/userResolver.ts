@@ -1,33 +1,33 @@
-import * as argon2 from 'argon2';
-import jwt from 'jsonwebtoken';
-import { Arg, Field, Mutation, InputType, Query, Resolver } from 'type-graphql';
-import { User } from '../entity/user';
-import dataSource from '../utils';
+import * as argon2 from "argon2";
+import jwt from "jsonwebtoken";
+import { Arg, Field, Mutation, InputType, Query, Resolver } from "type-graphql";
+import { User } from "../entity/user";
+import dataSource from "../utils";
 
-@InputType({ description: 'New user data' })
-class AddUserInput {
-  @Field()
-  email: string;
+// @InputType({ description: "New user data" })
+// class AddUserInput {
+//   @Field()
+//   email: string;
 
-  @Field()
-  password: string;
+//   @Field()
+//   password: string;
 
-  @Field()
-  pseudo: string;
+//   @Field()
+//   pseudo: string;
 
-  @Field()
-  description?: string;
+//   @Field()
+//   description?: string;
 
-  @Field()
-  avatar?: string;
-}
+//   @Field()
+//   avatar?: string;
+// }
 
 @Resolver(User)
 export class UserResolver {
   @Query(() => String)
   async getToken(
-    @Arg('email') email: string,
-    @Arg('password') password: string
+    @Arg("email") email: string,
+    @Arg("password") password: string
   ): Promise<string> {
     try {
       const userFromDB = await dataSource.manager.findOneByOrFail(User, {
@@ -48,22 +48,31 @@ export class UserResolver {
       }
     } catch (err) {
       console.log(err);
-      throw new Error('Invalid Auth');
+      throw new Error("Invalid Auth");
     }
   }
 
   @Mutation(() => User)
-  async createUser(@Arg('data') data: AddUserInput): Promise<User> {
-    const { email, password, pseudo, description, avatar } = data;
+  async createUser(
+    // @Arg("data") data: AddUserInput
+    @Arg("email") email: string,
+    @Arg("password") password: string,
+    @Arg("pseudo") pseudo: string,
+    @Arg("description") description: string,
+    @Arg("avatar") avatar: string
+  ): Promise<User> {
+    console.log("test");
+    // const { email, password, pseudo, description, avatar } = data;
+
     const newUser = new User();
     newUser.email = email;
     newUser.description = description;
     newUser.pseudo = pseudo;
     newUser.avatar = avatar;
     newUser.hashedPassword = await argon2.hash(password);
-    newUser.role = 'USER';
+    newUser.role = "USER";
     const userFromDB = await dataSource.manager.save(User, newUser);
-    console.log('USER SAVED:', userFromDB);
+    console.log("USER SAVED:", userFromDB);
     return userFromDB;
   }
 }

@@ -21,7 +21,7 @@ function Login() {
   const navigate = useNavigate();
   const [loadToken] = useLazyQuery(GET_TOKEN, {
     variables: {
-      mail: mail,
+      email: mail,
       password: password,
     },
     onCompleted(data) {
@@ -40,16 +40,16 @@ function Login() {
         <p className="top-login">Login</p>
         <div className="login-form-container">
           <label className="username-container">
-            <p>Username</p>
+            <p>Mail</p>
             <div className="username-input-container">
               <div className="login-icon-user">
                 <AiOutlineUser />
               </div>
               <input
                 type="text"
-                placeholder="Type your username"
-                value={pseudo}
-                onChange={(e) => setPseudo(e.target.value)}
+                placeholder="Type your mail"
+                value={mail}
+                onChange={(e) => setMail(e.target.value)}
               />
             </div>
           </label>
