@@ -22,7 +22,7 @@ export const Avatar = (props: AvatarProps) => {
           alt="user avatar"
         />
       ) : (
-        <PersonFill color={props.avatarColor} size={40} />
+        <PersonFill color={props.avatarColor || '#000'} size={40} />
       )}
     </div>
   );
