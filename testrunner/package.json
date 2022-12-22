@@ -1,0 +1,20 @@
+{
+  "name": "testrunner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "jest.config.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/client": "^3.7.3",
+    "cross-fetch": "^3.1.5",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^28.1.1"
+  }
+}
