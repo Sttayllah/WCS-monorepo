@@ -37,7 +37,7 @@ const CREATE_USER = gql`
   }
 `;
 
-// email: "test2
+// email: "test
 describe("User resolver", () => {
   it("create user", async () => {
     const res = await client.mutate({
