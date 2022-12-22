@@ -1,6 +1,14 @@
 import * as argon2 from "argon2";
 import jwt from "jsonwebtoken";
-import { Arg, Field, Mutation, InputType, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Field,
+  Mutation,
+  InputType,
+  Query,
+  Resolver,
+  Authorized,
+} from "type-graphql";
 import { User } from "../entity/user";
 import dataSource from "../utils";
 
@@ -49,6 +57,29 @@ export class UserResolver {
     } catch (err) {
       console.log(err);
       throw new Error("Invalid Auth");
+    }
+  }
+
+  @Authorized()
+  @Query(() => User)
+  async getOne(@Arg("email") email: string): Promise<User> {
+    try {
+      const userFromDB = await dataSource.getRepository(User).findOneByOrFail({
+        email,
+      });
+      const queryUser: User = {
+        id: userFromDB.id,
+        email: userFromDB.email,
+        pseudo: userFromDB.pseudo,
+        hashedPassword: "",
+        role: userFromDB.role,
+        description: userFromDB.description || undefined,
+        avatar: userFromDB.avatar || undefined,
+      };
+      return queryUser;
+    } catch (err) {
+      console.log(err);
+      throw new Error("Invalid query");
     }
   }
 

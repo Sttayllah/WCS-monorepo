@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom';
 import Logo from './assets/logo-removebg-preview.png';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -8,8 +8,31 @@ import './App.css';
 import { BsGoogle } from 'react-icons/bs';
 import { FaFacebookF } from 'react-icons/fa';
 import { FiTwitter } from 'react-icons/fi';
+import { gql, useLazyQuery } from '@apollo/client';
+
+export const GET_USER = gql`
+  query Query($email: String!) {
+    getOne(email: $email) {
+      email
+      pseudo
+      description
+      avatar
+    }
+  }
+`;
 
 function App() {
+  const [getuserdata] = useLazyQuery(GET_USER, {
+    variables: {
+      email: 'encore1@test.fr',
+    },
+    onCompleted(data) {
+      console.log(data);
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
   return (
     <div className="App">
       <Router>
@@ -29,6 +52,9 @@ function App() {
             <Link to={`/registration`}>
               <button className="header-signup">Sign Up</button>
             </Link>
+            <button className="header-signup" onClick={() => getuserdata()}>
+              test
+            </button>
           </div>
         </header>
         <Routes>
