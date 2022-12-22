@@ -12,24 +12,6 @@ import {
 import { User } from "../entity/user";
 import dataSource from "../utils";
 
-// @InputType({ description: "New user data" })
-// class AddUserInput {
-//   @Field()
-//   email: string;
-
-//   @Field()
-//   password: string;
-
-//   @Field()
-//   pseudo: string;
-
-//   @Field()
-//   description?: string;
-
-//   @Field()
-//   avatar?: string;
-// }
-
 @Resolver(User)
 export class UserResolver {
   @Query(() => String)
@@ -50,7 +32,10 @@ export class UserResolver {
           { email: userFromDB.email, role: userFromDB.role },
           process.env.JWT_SECRET_KEY
         );
-        return token;
+        return JSON.stringify({
+          token,
+          user: { pseudo: userFromDB.pseudo, email: userFromDB.email },
+        });
       } else {
         throw new Error();
       }

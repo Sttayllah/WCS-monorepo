@@ -5,6 +5,7 @@ import { setContext } from '@apollo/client/link/context';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { UserProvider } from './contexts/UserContext';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:5000/',
@@ -32,7 +33,9 @@ root.render(
   <React.StrictMode>
     {/* <BrowserRouter> */}
     <ApolloProvider client={client}>
-      <App />
+      <UserProvider>
+        <App />
+      </UserProvider>
     </ApolloProvider>
     {/* </BrowserRouter> */}
   </React.StrictMode>,
