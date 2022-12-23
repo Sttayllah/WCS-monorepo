@@ -16,11 +16,15 @@ body {
 /* HEADER */
 
 .header-wrapper {
+  position: absolute;
+  top: 0;
+  background-color: transparent;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: var(--light-grey);
-  padding: 10px;
+  padding: 20px;
+  width: 100%;
 }
 
 .img-header img {
@@ -68,6 +72,7 @@ body {
   align-items: center;
   background-color: var(--light-grey);
   padding: 30px;
+  width: 100%;
 }
 
 .footer-logo-wrapper {
@@ -405,12 +410,15 @@ body {
 }
 
 /* user profile */
-
-.citation::first-letter {
+.citation {
   font-size: 2rem;
+}
+.citation::first-letter {
+  font-size: 3rem;
   font-style: italic;
   color: #cc987a;
   font-weight: bold;
+  padding-right: 7px;
 }
 
 .citationUser {

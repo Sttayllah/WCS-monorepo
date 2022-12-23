@@ -4,8 +4,16 @@ import { FaFacebookF } from 'react-icons/fa';
 import { FiTwitter } from 'react-icons/fi';
 import { AiOutlineUser } from 'react-icons/ai';
 import { AiOutlineLock } from 'react-icons/ai';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useLazyQuery } from '@apollo/client';
 import { useState } from 'react';
+import { useUser } from '../contexts/UserContext';
+import { useNavigate } from 'react-router-dom';
+
+export const GET_TOKEN = gql`
+  query Query($password: String!, $email: String!) {
+    getToken(password: $password, email: $email)
+  }
+`;
 
 const CREATE_USER = gql`
   mutation Mutation(
@@ -34,15 +42,37 @@ function Registration() {
   const [pseudo, setPseudo] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const { setLocalUser } = useUser();
+  const navigate = useNavigate();
+
+  const [loadToken] = useLazyQuery(GET_TOKEN, {
+    variables: {
+      email: email,
+      password: password,
+    },
+    onCompleted(data) {
+      // console.log(data);
+      const res = JSON.parse(data.getToken);
+      // console.log(res);
+      setLocalUser({ ...res.user });
+      localStorage.setItem('token', res.token);
+      navigate('/userzzz');
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
+
   const [createUser] = useMutation(CREATE_USER, {
     variables: {
       email: email,
       password: password,
       pseudo: pseudo,
-      avatar: '',
-      description: '',
+      avatar: 'avatar',
+      description: 'Description',
     },
-    onCompleted: () => console.log('ok'),
+    onCompleted: () => loadToken(),
     onError(error) {
       console.log('EEEERRRRRRRRRRROOOOOOORRRRRR', error);
     },
