@@ -3,12 +3,12 @@ import {
   HttpLink,
   InMemoryCache,
   gql,
-} from "@apollo/client/core";
-import fetch from "cross-fetch";
+} from '@apollo/client/core';
+import fetch from 'cross-fetch';
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: "http://backend:5000/",
+    uri: 'http://backend:5000/',
     fetch,
   }),
   cache: new InMemoryCache(),
@@ -37,26 +37,31 @@ const CREATE_USER = gql`
   }
 `;
 
-// email: "test3
-describe("User resolver", () => {
-  it("create user", async () => {
+describe('User resolver', () => {
+  it('create user', async () => {
     const res = await client.mutate({
       mutation: CREATE_USER,
       variables: {
-        email: "test",
-        password: "test",
-        pseudo: "pseudo",
-        avatar: "sdfhkqjloqsl",
-        description: "jkfdhqsjklfhqlkfh",
+        email: 'test',
+        password: 'test',
+        pseudo: 'pseudo',
+        avatar: 'sdfhkqjloqsl',
+        description: 'jkfdhqsjklfhqlkfh',
       },
     });
 
-    expect(res.data?.createUser).toEqual({ __typename: "User", email: "test" });
+    expect(res.data?.createUser).toEqual({
+      __typename: 'User',
+      email: 'test',
+      pseudo: 'pseudo',
+      avatar: 'sdfhkqjloqsl',
+      description: 'jkfdhqsjklfhqlkfh',
+    });
   });
 
   let token: string;
 
-  it("gets token if user is valid", async () => {
+  it('gets token if user is valid', async () => {
     const res = await client.query({
       query: gql`
         query Query($password: String!, $email: String!) {
@@ -64,20 +69,22 @@ describe("User resolver", () => {
         }
       `,
       variables: {
-        email: "test",
-        password: "test",
-        pseudo: "pseudo",
-        avatar: "sdfhkqjloqsl",
-        description: "jkfdhqsjklfhqlkfh",
+        email: 'test',
+        password: 'test',
+        pseudo: 'pseudo',
+        avatar: 'sdfhkqjloqsl',
+        description: 'jkfdhqsjklfhqlkfh',
       },
-      fetchPolicy: "no-cache",
+      fetchPolicy: 'no-cache',
     });
-    expect(res.data?.getToken).toMatch(/^[\w-]*\.[\w-]*\.[\w-]*$/);
-
+    expect(JSON.parse(res.data?.getToken).token).toMatch(
+      /^[\w-]*\.[\w-]*\.[\w-]*$/
+    );
+    // expect(res.data?.getToken).toMatch(/^[\w-]*\.[\w-]*\.[\w-]*$/);
     token = res.data?.getToken;
   });
 
-  it("query wilder with the token", async () => {
+  it('query wilder with the token', async () => {
     const res = await client.query({
       query: gql`
         query Query($email: String!) {
@@ -89,14 +96,20 @@ describe("User resolver", () => {
           }
         }
       `,
-      variables: { password: "test", email: "test" },
-      fetchPolicy: "no-cache",
+      variables: { password: 'test', email: 'test' },
+      fetchPolicy: 'no-cache',
       context: {
         headers: {
-          authorization: "Bearer " + token,
+          authorization: 'Bearer ' + token,
         },
       },
     });
-    expect(res.data?.getOne).toEqual([]);
+    expect(res.data?.getOne).toEqual({
+      __typename: 'User',
+      email: 'test',
+      pseudo: 'pseudo',
+      avatar: 'sdfhkqjloqsl',
+      description: 'jkfdhqsjklfhqlkfh',
+    });
   });
 });

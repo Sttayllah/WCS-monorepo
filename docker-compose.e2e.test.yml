@@ -4,9 +4,6 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: example
-      PGDATA: customDataFolder
-    volumes:
-      - ./dbData:/var/lib/postgresql/data/customDataFolder
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -d postgres -U postgres']
       interval: 5s
@@ -16,11 +13,7 @@ services:
   backend:
     build: ./back
     env_file:
-      - .env
-    volumes:
-      - ./back/src:/app/src
-    ports:
-      - 5000:5000
+      - .env.local
     healthcheck:
       test: 'curl --fail --request POST --header ''content-type: application/json'' --url ''http://localhost:5000'' --data ''{"query":"query { __typename }"}'' || exit 1'
       interval: 5s
@@ -32,19 +25,21 @@ services:
 
   frontend:
     build: ./front
-    volumes:
-      - ./front/src:/app/src
-    ports:
-      - 3000:3000
+    env_file: .env.e2e
+    healthcheck:
+      test: "curl --fail --request GET --url 'http://localhost:3000' || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 10
     depends_on:
       backend:
         condition: service_healthy
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8081:8080
+  e2e:
+    build: ./e2e
+    volumes:
+      - ./e2e/playwright-report:/app/playwright-report
+      - ./e2e/test-results:/app/test-results
     depends_on:
-      db:
+      frontend:
         condition: service_healthy
