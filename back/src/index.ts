@@ -1,10 +1,10 @@
-import "reflect-metadata";
-import * as dotenv from "dotenv";
-import jwt from "jsonwebtoken";
-import { ApolloServer } from "apollo-server";
-import { buildSchema } from "type-graphql";
-import { UserResolver } from "./resolver/userResolver";
-import dataSource from "./utils";
+import 'reflect-metadata';
+import * as dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import { ApolloServer } from 'apollo-server';
+import { buildSchema } from 'type-graphql';
+import { UserResolver } from './resolver/userResolver';
+import dataSource from './utils';
 
 dotenv.config();
 
@@ -37,11 +37,14 @@ const start = async (): Promise<void> => {
         return {};
       } else {
         try {
-          const bearer = req.headers.authorization.split("Bearer ")[1];
-          console.log("bearer", bearer);
+          const bearer = req.headers.authorization.split('Bearer ')[1];
+          console.log('bearer', bearer);
 
           if (bearer) {
-            const user = jwt.verify(bearer, process.env.JWT_SECRET_KEY);
+            const token = JSON.parse(bearer).token;
+            console.log('token', token);
+            const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
+            console.log('USER', user);
             return { user };
           } else {
             return {};
@@ -58,7 +61,7 @@ const start = async (): Promise<void> => {
     const { url }: { url: string } = await server.listen({ port });
     console.log(`🚀  Server ready at ${url}`);
   } catch (err) {
-    console.log("Error starting the server");
+    console.log('Error starting the server');
   }
 };
 

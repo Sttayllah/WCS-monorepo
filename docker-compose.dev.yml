@@ -1,0 +1,58 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -d postgres -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./back
+    env_file:
+      - .env.local
+    volumes:
+      - ./back/src:/app/src
+    ports:
+      - 5000:5000
+    healthcheck:
+      test: 'curl --fail --request POST --header ''content-type: application/json'' --url ''http://localhost:5000'' --data ''{"query":"query { __typename }"}'' || exit 1'
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./front
+    env_file: .env.local
+    volumes:
+      - ./front/src:/app/src
+    ports:
+      - 3000:3000
+    healthcheck:
+      test: "curl --fail --request GET --url 'http://localhost:3000' || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres:
