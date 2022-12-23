@@ -131,14 +131,10 @@ export const Userprofile = (props: UserProfileProps) => {
             <Button
               style={{ borderRadius: '3px' }}
               title={'Valider'}
-              onClick={
-                () => {
-                  updateUser();
-                  setEditMode(false);
-                }
-
-                //DO SOMETHING ELSE WITH BDD
-              }
+              onClick={() => {
+                updateUser();
+                setEditMode(false);
+              }}
             />
           </>
         ) : (
@@ -162,7 +158,7 @@ export const Userprofile = (props: UserProfileProps) => {
               <figure style={{ width: '100%', textAlign: 'center' }}>
                 <blockquote>
                   <p className="citation">
-                    {isNullOrEmpty(description)
+                    {description === 'Description'
                       ? '"L\'inspiration vient de l\'intérieur. Malheureusement, je suis vide..!!!"'
                       : '"' + description}
                   </p>
