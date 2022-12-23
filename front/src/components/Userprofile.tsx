@@ -45,7 +45,6 @@ export const Userprofile = (props: UserProfileProps) => {
     variables: {
       email: currentUser.email,
       pseudo: pseudo,
-
       description: description,
       avatar: avatar,
     },

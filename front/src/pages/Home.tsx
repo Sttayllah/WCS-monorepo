@@ -6,6 +6,9 @@ import mostUsedCategories from '../fakeData/mostUsedCategories.json';
 import { mostViewedBlogsHeader, mostViewedArticleHeader } from '../staticData/tableHeaders';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import hero from '../assets/hero.png';
+import { url } from 'inspector';
+import { Button } from '../components/static/Button';
 
 function Home() {
   // const token = localStorage.getItem("token");
@@ -19,35 +22,54 @@ function Home() {
   // });
   return (
     <>
-      <div className="w-4/5 m-auto mt-10">
-        <SectionHomePage
-          title="Most viewed blogs"
-          tableHeader={mostViewedBlogsHeader}
-          tableContent={mostVisitedBlogs.data}
-        />
+      <img src={hero} alt="bg" style={{ height: '100vh', width: '100vw', objectFit: 'fill' }} />
+      <div
+        style={{
+          position: 'absolute',
+          top: 150,
+          left: 20,
+          width: '30%',
+        }}
+      >
+        <div style={{ fontSize: '6rem', color: 'white' }}>LIGHTWEIGHTS BLOGS</div>
+        <div style={{ fontSize: '1.3rem', color: 'white' }}>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Inventore ab voluptatibus
+          aliquid distinctio tempora voluptates consequatur, ratione aut similique, blanditiis
+          numquam doloribus, culpa voluptate eos. Aperiam ipsum sint qui earum! Assumenda
+        </div>
+        <Button title={'Commencer'} onClick={() => {}}></Button>
       </div>
-      <div className="w-4/5 m-auto mt-10">
-        <SectionHomePage
-          title="Most viewed articles"
-          tableHeader={mostViewedArticleHeader}
-          tableContent={mostVisitedBlogs.data}
-        />
-      </div>
-      <div className="w-4/5 m-auto mt-10">
-        <SectionHomePage
-          title="Most used tags"
-          tableHeader={['Tags']}
-          tableContent={mostUsedTags.data}
-          isTags={true}
-        />
-      </div>
-      <div className="w-4/5 m-auto mt-10">
-        <SectionHomePage
-          title="Most used categories"
-          tableHeader={['Categories']}
-          tableContent={mostUsedCategories.data}
-          isCategory={true}
-        />
+      <div>
+        <div className="w-4/5 m-auto mt-10">
+          <SectionHomePage
+            title="Most viewed blogs"
+            tableHeader={mostViewedBlogsHeader}
+            tableContent={mostVisitedBlogs.data}
+          />
+        </div>
+        <div className="w-4/5 m-auto mt-10">
+          <SectionHomePage
+            title="Most viewed articles"
+            tableHeader={mostViewedArticleHeader}
+            tableContent={mostVisitedBlogs.data}
+          />
+        </div>
+        <div className="w-4/5 m-auto mt-10">
+          <SectionHomePage
+            title="Most used tags"
+            tableHeader={['Tags']}
+            tableContent={mostUsedTags.data}
+            isTags={true}
+          />
+        </div>
+        <div className="w-4/5 m-auto mt-10">
+          <SectionHomePage
+            title="Most used categories"
+            tableHeader={['Categories']}
+            tableContent={mostUsedCategories.data}
+            isCategory={true}
+          />
+        </div>
       </div>
     </>
   );
