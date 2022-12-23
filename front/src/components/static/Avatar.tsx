@@ -16,8 +16,8 @@ export const Avatar = (props: AvatarProps) => {
         backgroundColor: props.avatarBackgroundColor,
         borderRadius: '100%',
         display: 'flex',
-        width: 75,
-        height: 75,
+        width: 100,
+        height: 100,
         justifyContent: 'center',
         alignItems: 'center',
       }}
@@ -25,7 +25,7 @@ export const Avatar = (props: AvatarProps) => {
     >
       {!isNullOrEmpty(props.src) ? (
         <img
-          style={{ borderRadius: '100%', maxWidth: 100, padding: '10px 10px' }}
+          style={{ borderRadius: '100%', maxWidth: 150, padding: '10px 10px' }}
           src={props.src}
           alt="user avatar"
         />

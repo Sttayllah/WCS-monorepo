@@ -63,135 +63,92 @@ export const Userprofile = (props: UserProfileProps) => {
     <>
       <div
         className={'userProfileGlobal'}
-        style={{ display: 'flex', flexDirection: 'column', padding: '20px' }}
+        style={{ display: 'flex', flexDirection: 'column', padding: '40px', height: '70%' }}
       >
-        <Avatar
-          avatarBackgroundColor="#cc987a"
-          onClick={() => {
-            setShowModal(true);
-            YEAH_BUDDY.play();
-            YEAH_BUDDY.onended = () => {
-              YEAH_BUDDY.pause();
-            };
+        <div
+          style={{
+            position: 'absolute',
+            backgroundColor: 'white',
+            borderRadius: '100%',
+            display: 'flex',
+            width: 150,
+            height: 150,
+            top: -20,
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-          src={avatar || ''}
-        />
-        {editMode && (
-          <input
-            onChange={async (e) => {
-              try {
-                // const file = (e.target as any).files[0];
-                // const img: FileImageData = await getImageFromFile(file)
-                // setAvatar(img.base64Data);
-                // localStorage.setItem('userImage', img.base64Data);
-                if (e.target.files !== null) {
-                  const file = e.target.files[0];
-                  const reader = new FileReader();
-                  reader.onload = (e) => {
-                    setAvatar(e.target?.result as string);
-                  };
-                  reader.readAsDataURL(file);
-                }
-              } catch (err) {
-                console.log(err);
-              }
+        >
+          <Avatar
+            avatarBackgroundColor="#cc987a"
+            onClick={() => {
+              setShowModal(true);
+              YEAH_BUDDY.play();
+              YEAH_BUDDY.onended = () => {
+                YEAH_BUDDY.pause();
+              };
             }}
-            accept={'image/*'}
-            type={'file'}
+            src={avatar || ''}
           />
-        )}
+        </div>
 
-        {editMode ? (
-          <>
-            <Input
-              label={'Pseudo'}
-              value={pseudo}
-              placeholder={'Entrez votre pseudo'}
-              onChange={(e) => {
-                setPseudo(e.target.value);
-              }}
-            />
-            <Input
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              label={'Mail'}
-              placeholder={email}
-            />
-            <Input
-              value={description}
-              onChange={(e) => {
-                setDescription(e.target.value);
-              }}
-              label={'description'}
-              placeholder={description}
-            />
+        <>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              minWidth: '100%',
+              justifyContent: 'space-between',
+              position: 'relative',
+              top: 100,
+            }}
+          >
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <Label className={'py-2'}>Pseudo: </Label>
+              <Value className={'text-slate-300'}>{pseudo}</Value>
+              <Label className={'py-2'}>Email: </Label>
+              <Value className={'text-slate-300'}>{email}</Value>
+              <div>
+                <Label className={'py-2'}>Vos articles: </Label>
 
-            <Button
-              style={{ borderRadius: '3px' }}
-              title={'Valider'}
-              onClick={() => {
-                updateUser();
-                setEditMode(false);
-              }}
-            />
-          </>
-        ) : (
-          <>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                minWidth: '100%',
-                justifyContent: 'space-between',
-              }}
-            >
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <Label className={'py-2'}>Pseudo: </Label>
-                <Value className={'text-slate-300'}>{pseudo}</Value>
-                <Label className={'py-2'}>Email: </Label>
-                <Value className={'text-slate-300'}>{email}</Value>
+                {articles?.map((article, index) => {
+                  return (
+                    // article.userId === props.user.id && (
+                    <Label key={index}>
+                      <Value className={'text-slate-300'}>{article.label}</Value>
+                    </Label>
+                    // )
+                  );
+                })}
               </div>
-
-              {/* <Label className={'py-2'}>Description: </Label> */}
-              <figure style={{ width: '100%', textAlign: 'center' }}>
-                <blockquote>
-                  <p className="citation">
-                    {description === 'Description'
-                      ? '"L\'inspiration vient de l\'intérieur. Malheureusement, je suis vide..!!!"'
-                      : '"' + description}
-                  </p>
-                </blockquote>
-                <figcaption className="citationUser">
-                  {`_${pseudo},`} <cite className="citationOrigin">YeahBuddy.com</cite>
-                </figcaption>
-              </figure>
+              <Button
+                style={{ borderRadius: '3px' }}
+                title={'Editer'}
+                onClick={() => {
+                  setShowModal(true);
+                  YEAH_BUDDY.play();
+                  YEAH_BUDDY.onended = () => {
+                    YEAH_BUDDY.pause();
+                  };
+                }}
+              />
             </div>
-          </>
-        )}
-        {!editMode && <Label className={'py-2'}>Vos articles: </Label>}
-        {!editMode &&
-          articles?.map((article, index) => {
-            return (
-              // article.userId === props.user.id && (
-              <Label key={index}>
-                <Value className={'text-slate-300'}>{article.label}</Value>
-              </Label>
-              // )
-            );
-          })}
-        <Button
-          style={{ borderRadius: '3px' }}
-          title={'Editer'}
-          onClick={() => {
-            setShowModal(true);
-            YEAH_BUDDY.play();
-            YEAH_BUDDY.onended = () => {
-              YEAH_BUDDY.pause();
-            };
-          }}
-        />
+
+            {/* <Label className={'py-2'}>Description: </Label> */}
+            <figure style={{ width: '100%', textAlign: 'center' }}>
+              <blockquote>
+                <p className="citation">
+                  {description === 'Description'
+                    ? '"L\'inspiration vient de l\'intérieur. Malheureusement, je suis vide..!!!"'
+                    : '"' + description}
+                </p>
+              </blockquote>
+              <figcaption className="citationUser">
+                {`_${pseudo},`} <cite className="citationOrigin">YeahBuddy.com</cite>
+              </figcaption>
+            </figure>
+          </div>
+        </>
+        {/* )} */}
       </div>
       <GenericModal
         cancelLabel="Fermer"
@@ -204,6 +161,8 @@ export const Userprofile = (props: UserProfileProps) => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
+              width: '100%',
+              padding: '40px',
             }}
           >
             <div
@@ -213,7 +172,7 @@ export const Userprofile = (props: UserProfileProps) => {
                 height: '100%',
                 justifyContent: 'space-between',
                 alignItems: 'flex-start',
-                gap: '20px',
+                gap: '40px',
               }}
             >
               <div>{currentUser.pseudo}</div>
@@ -250,6 +209,7 @@ export const Userprofile = (props: UserProfileProps) => {
                 type={'file'}
               />
             </div>
+
             <div
               style={{
                 flexDirection: 'column',

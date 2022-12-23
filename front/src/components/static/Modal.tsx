@@ -28,7 +28,7 @@ export const GenericModal = (props: GenericModalProps) => {
     <Dialog open={isOpen} onClose={() => props.onCancel} className="relative z-50">
       <div className="fixed inset-0 flex items-center justify-center p-4 ">
         <Dialog.Panel
-          className="w-3/4 h-3/4 rounded-lg  p-2.5"
+          className="w-2/4 h-3/4 rounded-lg  p-2.5"
           style={{
             backgroundColor: ' #9b9b9b',
             color: 'white',

@@ -20,7 +20,11 @@ export const Input = (props: InputProps) => {
       <Label>{props.label}</Label>
       <Combobox>
         <input
-          style={{ color: 'black', borderRadius: '3px', border: '1px solid #cc987a' }}
+          style={{
+            color: 'black',
+            borderRadius: '5px',
+            border: '1px solid #cc987a',
+          }}
           type={props.type ? props.type : 'text'}
           value={props.value}
           onChange={props.onChange}
