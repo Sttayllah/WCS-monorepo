@@ -12,6 +12,7 @@ import {
 import { User } from '../entity/user';
 import dataSource from '../utils';
 
+
 @Resolver(User)
 export class UserResolver {
   @Query(() => String)
@@ -32,7 +33,7 @@ export class UserResolver {
           { email: userFromDB.email, role: userFromDB.role },
           process.env.JWT_SECRET_KEY
         );
-        // return token;
+        
         return JSON.stringify({
           token,
           user: { pseudo: userFromDB.pseudo, email: userFromDB.email },

@@ -7,6 +7,7 @@ import { AiOutlineLock } from 'react-icons/ai';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { gql, useLazyQuery } from '@apollo/client';
+import { useUser } from '../contexts/UserContext';
 
 export const GET_TOKEN = gql`
   query Query($password: String!, $email: String!) {
@@ -15,18 +16,21 @@ export const GET_TOKEN = gql`
 `;
 
 function Login() {
-  const [pseudo, setPseudo] = useState('');
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { setLocalUser } = useUser();
   const [loadToken] = useLazyQuery(GET_TOKEN, {
     variables: {
       email: mail,
       password: password,
     },
     onCompleted(data) {
-      console.log(data.getToken);
-      localStorage.setItem('token', data.getToken);
+      // console.log(data);
+      const res = JSON.parse(data.getToken);
+      // console.log(res);
+      localStorage.setItem('token', res.token);
+      setLocalUser({ ...res.user });
       navigate('/');
     },
     onError(error) {

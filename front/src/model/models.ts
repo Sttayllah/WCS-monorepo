@@ -2,9 +2,9 @@ export interface User {
   id: number;
   pseudo: string;
   email: string;
-  password: string;
+  password?: string;
   description?: string;
-  avatar: string;
+  avatar?: string;
 }
 
 export interface Article {
