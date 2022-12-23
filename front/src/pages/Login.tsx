@@ -65,7 +65,7 @@ function Login() {
                 <AiOutlineLock />
               </div>
               <input
-                type="text"
+                type="password"
                 placeholder="Type your password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
