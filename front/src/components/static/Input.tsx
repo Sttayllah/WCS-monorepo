@@ -19,14 +19,13 @@ export const Input = (props: InputProps) => {
     <>
       <Label>{props.label}</Label>
       <Combobox>
-        <div style={{ backgroundColor: 'pink' }}>
-          <Combobox.Input
-            value={props.value}
-            onChange={(value) => props.onChange(value)}
-            placeholder={props.placeholder && props.placeholder}
-            displayValue={props.value}
-          />
-        </div>
+        <input
+          style={{ color: 'black', borderRadius: '3px', border: '1px solid #cc987a' }}
+          type={props.type ? props.type : 'text'}
+          value={props.value}
+          onChange={props.onChange}
+          placeholder={props.placeholder && props.placeholder}
+        />
       </Combobox>
     </>
   );

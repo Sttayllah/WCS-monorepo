@@ -1,7 +1,8 @@
-@font-face {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap');
+/* @font-face {
   font-family: Gotham;
   src: url(./fonts/Gotham\ Black\ Regular.ttf);
-}
+} */
 
 body {
   margin: 0;
@@ -9,7 +10,7 @@ body {
   --main-color: #cc987a;
   --secondary-color: #111211;
   --light-grey: #dadada2d;
-  font-family: Gotham;
+  font-family: 'Inter', sans-serif;
 }
 
 /* HEADER */
@@ -49,7 +50,7 @@ body {
   font-weight: 600;
   background-color: var(--main-color);
   color: #fff;
-  border-radius: 10px;
+  border-radius: 3px;
   padding: 10px 20px;
 }
 
@@ -74,7 +75,9 @@ body {
   flex-direction: row;
 }
 
-.footer-logo-wrapper .footer-icon-google, .footer-logo-wrapper .footer-icon-facebook, .footer-logo-wrapper .footer-icon-twitter {
+.footer-logo-wrapper .footer-icon-google,
+.footer-logo-wrapper .footer-icon-facebook,
+.footer-logo-wrapper .footer-icon-twitter {
   border: 1px solid #dadadac2;
   border-radius: 100%;
   width: 30px;
@@ -123,6 +126,10 @@ body {
 }
 
 /* LOGIN */
+
+.userProfileGlobal {
+  background-color: #808080;
+}
 
 .login-main-wrapper {
   height: 100vh;
@@ -395,4 +402,21 @@ body {
 
 .w\-1\/11 {
   width: 9.0909%;
+}
+
+/* user profile */
+
+.citation::first-letter {
+  font-size: 2rem;
+  font-style: italic;
+  color: #cc987a;
+  font-weight: bold;
+}
+
+.citationUser {
+  font-weight: bold;
+}
+
+.citationOrigin {
+  font-weight: 200;
 }

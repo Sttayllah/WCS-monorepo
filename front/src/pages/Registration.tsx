@@ -39,8 +39,8 @@ function Registration() {
       email: email,
       password: password,
       pseudo: pseudo,
-      avatar: 'sdfhkqjloqsl',
-      description: 'jkfdhqsjklfhqlkfh',
+      avatar: '',
+      description: '',
     },
     onCompleted: () => console.log('ok'),
     onError(error) {

@@ -12,7 +12,15 @@ export const Avatar = (props: AvatarProps) => {
   return (
     <div
       className={classNames('')}
-      style={{ backgroundColor: props.avatarBackgroundColor, borderRadius: '100%' }}
+      style={{
+        backgroundColor: props.avatarBackgroundColor,
+        borderRadius: '100%',
+        display: 'flex',
+        width: 75,
+        height: 75,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
       onClick={props.onClick && props.onClick}
     >
       {!isNullOrEmpty(props.src) ? (
@@ -22,7 +30,7 @@ export const Avatar = (props: AvatarProps) => {
           alt="user avatar"
         />
       ) : (
-        <PersonFill color={props.avatarColor || '#000'} size={40} />
+        <PersonFill color={props.avatarColor || '#808080'} size={40} />
       )}
     </div>
   );

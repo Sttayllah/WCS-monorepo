@@ -34,7 +34,12 @@ export class UserResolver {
         );
         return JSON.stringify({
           token,
-          user: { pseudo: userFromDB.pseudo, email: userFromDB.email },
+          user: {
+            pseudo: userFromDB.pseudo,
+            email: userFromDB.email,
+            avatar: userFromDB.avatar,
+            description: userFromDB.description,
+          },
         });
       } else {
         throw new Error();
@@ -77,7 +82,6 @@ export class UserResolver {
     @Arg("description") description: string,
     @Arg("avatar") avatar: string
   ): Promise<User> {
-    console.log("test");
     // const { email, password, pseudo, description, avatar } = data;
 
     const newUser = new User();
@@ -90,5 +94,30 @@ export class UserResolver {
     const userFromDB = await dataSource.manager.save(User, newUser);
     console.log("USER SAVED:", userFromDB);
     return userFromDB;
+  }
+  @Authorized()
+  @Mutation(() => User)
+  async updateUser(
+    @Arg("email") email: string,
+    @Arg("pseudo") pseudo: string,
+    @Arg("description") description: string,
+    @Arg("avatar") avatar: string
+  ): Promise<User> {
+    try {
+      const userFromDB = await dataSource.manager.findOneByOrFail(User, {
+        email,
+      });
+      if (!userFromDB) {
+        throw new Error("User not found");
+      }
+      userFromDB.description = description;
+      userFromDB.pseudo = pseudo;
+      userFromDB.avatar = avatar;
+      const updatedUser = await dataSource.manager.save(User, userFromDB);
+      return updatedUser;
+    } catch (err) {
+      console.log(err);
+      throw new Error("Failed to update user");
+    }
   }
 }

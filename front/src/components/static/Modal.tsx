@@ -28,10 +28,25 @@ export const GenericModal = (props: GenericModalProps) => {
     <Dialog open={isOpen} onClose={() => props.onCancel} className="relative z-50">
       <div className="fixed inset-0 flex items-center justify-center p-4 ">
         <Dialog.Panel
-          className="w-2/4 h-2/4 rounded-lg  p-2.5"
-          style={{ backgroundColor: ' #9b9b9b', color: 'white' }}
+          className="w-3/4 h-3/4 rounded-lg  p-2.5"
+          style={{
+            backgroundColor: ' #9b9b9b',
+            color: 'white',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
         >
-          <Dialog.Title style={{ padding: '20px 20px', fontSize: '2em' }}>
+          <Dialog.Title
+            style={{
+              padding: '20px 20px',
+              fontSize: '1.3em',
+              height: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             {props.title}
           </Dialog.Title>
           <Dialog.Description>{props.subTitle}</Dialog.Description>
@@ -48,18 +63,6 @@ export const GenericModal = (props: GenericModalProps) => {
               title={props.cancelLabel || 'Annuler'}
             />
           </div>
-
-          {props.onConfirm && (
-            <div className="flex self-end pb-2.5">
-              <Button
-                style={{ cursor: 'pointer' }}
-                onClick={() => {
-                  props.onConfirm && props.onConfirm();
-                }}
-                title={props.confirmLabel || 'Valider'}
-              />
-            </div>
-          )}
         </Dialog.Panel>
       </div>
     </Dialog>

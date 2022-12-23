@@ -52,9 +52,6 @@ function App() {
             <Link to={`/registration`}>
               <button className="header-signup">Sign Up</button>
             </Link>
-            <button className="header-signup" onClick={() => getuserdata()}>
-              test
-            </button>
           </div>
         </header>
         <Routes>

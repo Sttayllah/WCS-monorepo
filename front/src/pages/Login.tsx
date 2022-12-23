@@ -29,9 +29,9 @@ function Login() {
       // console.log(data);
       const res = JSON.parse(data.getToken);
       // console.log(res);
-      localStorage.setItem('token', res.token);
       setLocalUser({ ...res.user });
-      navigate('/');
+      localStorage.setItem('token', res.token);
+      navigate('/userzzz');
     },
     onError(error) {
       console.log(error);
