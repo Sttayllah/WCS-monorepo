@@ -1,5 +1,22 @@
 {
-  "dependencies": {
-    "@typescript-eslint/parser": "^5.47.0"
-  }
+  "name": "yeahbuddy.com",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "unit-test": "cd ./front && npm run test",
+    "integration-test": "docker compose -f docker-compose.integration.test.yml up --build --exit-code-from testrunner",
+    "e2e-test": "docker compose -f docker-compose.e2e.test.yml up --build --exit-code-from e2e",
+    "start": "docker compose -f docker-compose.dev.yml up --build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sttayllah/WCS-monorepo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sttayllah/WCS-monorepo/issues"
+  },
+  "homepage": "https://github.com/Sttayllah/WCS-monorepo#readme"
 }

@@ -1,0 +1,45 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -d postgres -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./back
+    env_file:
+      - .env.local
+    healthcheck:
+      test: 'curl --fail --request POST --header ''content-type: application/json'' --url ''http://localhost:5000'' --data ''{"query":"query { __typename }"}'' || exit 1'
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./front
+    env_file: .env.e2e
+    healthcheck:
+      test: "curl --fail --request GET --url 'http://localhost:3000' || exit 1"
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  e2e:
+    build: ./e2e
+    volumes:
+      - ./e2e/playwright-report:/app/playwright-report
+      - ./e2e/test-results:/app/test-results
+    depends_on:
+      frontend:
+        condition: service_healthy

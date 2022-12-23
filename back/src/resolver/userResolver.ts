@@ -32,6 +32,7 @@ export class UserResolver {
           { email: userFromDB.email, role: userFromDB.role },
           process.env.JWT_SECRET_KEY
         );
+
         return JSON.stringify({
           token,
           user: {

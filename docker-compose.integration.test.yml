@@ -4,9 +4,8 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: example
-      PGDATA: customDataFolder
     volumes:
-      - ./dbData:/var/lib/postgresql/data/customDataFolder
+      - postgres:/var/lib/postgresql/data
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -d postgres -U postgres']
       interval: 5s
@@ -16,9 +15,7 @@ services:
   backend:
     build: ./back
     env_file:
-      - .env
-    volumes:
-      - ./back/src:/app/src
+      - .env.local
     ports:
       - 5000:5000
     healthcheck:
@@ -30,21 +27,11 @@ services:
       db:
         condition: service_healthy
 
-  frontend:
-    build: ./front
-    volumes:
-      - ./front/src:/app/src
-    ports:
-      - 3000:3000
+  testrunner:
+    build: ./testrunner
     depends_on:
       backend:
         condition: service_healthy
 
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8081:8080
-    depends_on:
-      db:
-        condition: service_healthy
+volumes:
+  postgres:
