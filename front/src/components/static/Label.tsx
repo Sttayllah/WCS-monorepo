@@ -6,7 +6,7 @@ interface LabelProps {
 }
 export const Label = (props: LabelProps) => {
   return (
-    <div onClick={() => props.onClick} className={props.className}>
+    <div onClick={() => props.onClick} className={props.className} style={{ whiteSpace: 'nowrap' }}>
       {props.children}
     </div>
   );

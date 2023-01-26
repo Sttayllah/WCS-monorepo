@@ -1,8 +1,8 @@
 import { gql, useMutation } from '@apollo/client';
 import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import userContext from '../contexts/UserContext';
-import { Article, FileImageData, User } from '../model/models';
-import { getImageFromFile, isNullOrEmpty } from '../services/utils';
+import { Article, User } from '../model/models';
 import { Avatar } from './static/Avatar';
 import { Button } from './static/Button';
 import { Input } from './static/Input';
@@ -21,6 +21,13 @@ const UPDATE_USER_MUTATION = gql`
     }
   }
 `;
+const DELETE_USER = gql`
+  mutation deleteUser($id: Float!) {
+    deleteUser(id: $id) {
+      id
+    }
+  }
+`;
 interface UserProfileProps {
   user?: User;
   articles?: Article[];
@@ -31,6 +38,7 @@ interface UserProfileProps {
 
 export const Userprofile = (props: UserProfileProps) => {
   const currentUser = useContext(userContext).user;
+  const navigate = useNavigate();
   const [pseudo, setPseudo] = useState(currentUser.pseudo);
   const [email, setEmail] = useState(currentUser.email);
   const [password, setPassword] = useState(currentUser.password);
@@ -49,6 +57,16 @@ export const Userprofile = (props: UserProfileProps) => {
       avatar: avatar,
     },
   });
+
+  const [deleteUser] = useMutation(DELETE_USER, {
+    variables: {
+      deleteUserId: currentUser.id,
+    },
+    onCompleted() {
+      navigate('/');
+    },
+  });
+
   useEffect(() => {
     if (currentUser) {
       setPseudo(currentUser.pseudo);
@@ -120,17 +138,26 @@ export const Userprofile = (props: UserProfileProps) => {
                   );
                 })}
               </div>
-              <Button
-                style={{ borderRadius: '3px' }}
-                title={'Editer'}
-                onClick={() => {
-                  setShowModal(true);
-                  YEAH_BUDDY.play();
-                  YEAH_BUDDY.onended = () => {
-                    YEAH_BUDDY.pause();
-                  };
-                }}
-              />
+              <div style={{ display: 'flex', flexDirection: 'row', gap: '10px' }}>
+                <Button
+                  style={{ borderRadius: '3px' }}
+                  title={'Editer'}
+                  onClick={() => {
+                    setShowModal(true);
+                    YEAH_BUDDY.play();
+                    YEAH_BUDDY.onended = () => {
+                      YEAH_BUDDY.pause();
+                    };
+                  }}
+                />
+                <Button
+                  style={{ borderRadius: '3px' }}
+                  title={'Effacer le profil'}
+                  onClick={() => {
+                    deleteUser();
+                  }}
+                />
+              </div>
             </div>
 
             {/* <Label className={'py-2'}>Description: </Label> */}
