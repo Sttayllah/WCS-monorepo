@@ -23,14 +23,14 @@ export const Avatar = (props: AvatarProps) => {
       }}
       onClick={props.onClick && props.onClick}
     >
-      {!isNullOrEmpty(props.src) ? (
+      {props.src !== 'avatar' ? (
         <img
           style={{ borderRadius: '100%', maxWidth: 150, padding: '10px 10px' }}
           src={props.src}
           alt="user avatar"
         />
       ) : (
-        <PersonFill color={props.avatarColor || '#808080'} size={40} />
+        <PersonFill color={props.avatarColor || '#808080'} size={50} />
       )}
     </div>
   );
