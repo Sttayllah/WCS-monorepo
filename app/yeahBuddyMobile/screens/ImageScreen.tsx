@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
-  Text,
   View,
   Image,
-  ScrollView,
   useWindowDimensions,
   StyleSheet,
   FlatList,
@@ -16,6 +14,7 @@ import Constants from "expo-constants";
 import { Ionicons } from "@expo/vector-icons";
 
 const token = Constants?.manifest?.extra?.TOKEN;
+
 export const ImageScreen = () => {
   const [imagesURI, setImagesURI] = useState<any[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -94,12 +93,13 @@ export const ImageScreen = () => {
         refreshing
         refreshControl={
           <RefreshControl
-            refreshing
+            refreshing={refreshing}
             onRefresh={async () => {
               const images = await FileSystem.readDirectoryAsync(
                 FileSystem.cacheDirectory + "ImageManipulator"
               );
               setImagesURI(images);
+              setRefreshing(false);
             }}
           />
         }

@@ -40,7 +40,7 @@ export default function Header() {
                     : "ellipsis-horizontal-outline"
                 }
                 size={size}
-                color={focused ? "#cc987a" : "#grey"}
+                color={focused ? "#cc987a" : "black"}
               />
             ),
           }}
@@ -54,7 +54,7 @@ export default function Header() {
               <Ionicons
                 name={focused ? "share-social" : "share-social-outline"}
                 size={size}
-                color={focused ? "#cc987a" : "#grey"}
+                color={focused ? "#cc987a" : "black"}
               />
             ),
           }}
@@ -69,7 +69,7 @@ export default function Header() {
               <Ionicons
                 name={focused ? "camera" : "camera-outline"}
                 size={size}
-                color={focused ? "#cc987a" : "#grey"}
+                color={focused ? "#cc987a" : "black"}
               />
             ),
           }}
@@ -86,7 +86,7 @@ export default function Header() {
               <Ionicons
                 name={focused ? "image" : "image-outline"}
                 size={size}
-                color={focused ? "#cc987a" : "#grey"}
+                color={focused ? "#cc987a" : "black"}
               />
             ),
           }}
