@@ -1,4 +1,4 @@
-import { Field, ObjectType } from 'type-graphql';
+import { Field, ObjectType } from "type-graphql";
 import {
   Column,
   Entity,
@@ -9,10 +9,10 @@ import {
   OneToMany,
   UpdateDateColumn,
   CreateDateColumn,
-} from 'typeorm';
-import { Blog } from './blog';
-import { Comment } from './comment';
-import { Tag } from './tag';
+} from "typeorm";
+import { Blog } from "./blog";
+import { Comment } from "./comment";
+import { Tag } from "./tag";
 
 @ObjectType()
 @Entity()
@@ -48,12 +48,17 @@ export class Article {
   @ManyToOne(() => Blog, (blog) => blog.articles)
   blogAndUserId: Blog;
 
-  @Field(() => [Tag])
-  @ManyToMany(() => Tag)
-  @JoinTable()
-  categories: Tag[];
-
   @Field(() => [Comment])
   @OneToMany(() => Comment, (comment) => comment.article)
   public comments: Comment[];
+
+  //TODO verify la relation entre article et tag
+  @Field(() => [Tag])
+  @ManyToMany(() => Tag)
+  @JoinTable()
+  tags: Tag[];
+
+  // @Field(() => [Tag])
+  // @OneToMany(() => Tag, (tag) => tag.article)
+  // public tags: Tag[];
 }
