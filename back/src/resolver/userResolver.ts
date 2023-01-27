@@ -89,6 +89,7 @@ export class UserResolver {
     newUser.avatar = avatar;
     newUser.hashedPassword = await argon2.hash(password);
     newUser.role = "USER";
+    newUser.images = [];
     const userFromDB = await dataSource.manager.save(User, newUser);
     console.log("USER SAVED:", userFromDB);
     return userFromDB;

@@ -1,21 +1,22 @@
-import { DataSource } from 'typeorm';
-import { User } from './entity/user';
-import { Blog } from './entity/blog';
-import { Article } from './entity/article';
-import { Tag } from './entity/tag';
-import { Comment } from './entity/comment';
+import { DataSource } from "typeorm";
+import { User } from "./entity/user";
+import { Blog } from "./entity/blog";
+import { Article } from "./entity/article";
+import { Tag } from "./entity/tag";
+import { Comment } from "./entity/comment";
 
-import { Category } from './entity/category';
+import { Category } from "./entity/category";
+import { Image } from "./entity/image";
 
 const dataSource = new DataSource({
-  type: 'postgres',
-  host: 'db',
+  type: "postgres",
+  host: "db",
   port: 5432,
-  username: 'postgres',
-  password: 'example',
-  database: 'postgres',
+  username: "postgres",
+  password: "example",
+  database: "postgres",
   synchronize: true,
-  entities: [User, Category, Blog, Article, Tag, Comment],
+  entities: [User, Category, Blog, Article, Tag, Comment, Image],
 });
 
 export default dataSource;

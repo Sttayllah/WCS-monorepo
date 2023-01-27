@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import * as ImageManipulator from "expo-image-manipulator";
+import { mediaUploader } from "../utils/mediaUploader";
 
 export const CameraComponent = () => {
   const [type, setType] = useState(CameraType.back);
@@ -45,16 +46,22 @@ export const CameraComponent = () => {
         <Button
           color="#cc987a"
           title={"Take a fucking picture"}
-          onPress={async () => {
-            if (cameraRef.current) {
-              const pictureMetadata =
-                await cameraRef.current.takePictureAsync();
-              console.log("pictureMetadata", pictureMetadata);
-              console.log(
-                await ImageManipulator.manipulateAsync(pictureMetadata.uri, [
-                  { resize: { width: 800 } },
-                ])
-              );
+          onPress={async (e: any) => {
+            if (e.currentTarget.file[0] !== undefined) {
+              console.log(e.currentTarget);
+
+              // const pictureMetadata =
+              //   await cameraRef.current.takePictureAsync();
+              // console.log("pictureMetadata", pictureMetadata);
+              // console.log(
+              //   await ImageManipulator.manipulateAsync(pictureMetadata.uri, [
+              //     { resize: { width: 800 } },
+              //   ])
+              // );
+              const imageFile = e.currentTarget.file[0];
+              console.log(imageFile);
+
+              mediaUploader(imageFile);
             } else {
               console.log("Error while taking picture");
             }

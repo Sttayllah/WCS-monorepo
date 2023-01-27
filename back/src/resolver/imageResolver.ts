@@ -1,42 +1,35 @@
 import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
 import { Image } from "../entity/image";
+import { User } from "../entity/user";
 import dataSource from "../utils";
 
 @Resolver(Image)
 export class ImageResolver {
-  //   @Authorized()
-  //   @Query(() => [Image])
-  //   async getAllImages(): Promise<Wilder[]> {
-  //     return await dataSource.manager.find(Wilder, {
-  //       relations: {
-  //         grades: {
-  //           skill: true,
-  //         },
-  //       },
-  //     });
-  //   }
-
   @Authorized()
   @Mutation(() => Image)
   async addImage(
-    @Arg("email") email: string,
+    @Arg("id") id: number,
     @Arg("imageUrl") imageUrl: string
   ): Promise<Image> {
     try {
       const userFromDB = await dataSource.manager.findOneByOrFail(User, {
-        email,
+        id,
       });
       if (!userFromDB) {
-        throw new Error("Image not found");
+        throw new Error("User not found");
       }
 
       const newImage = new Image();
-      newImage.url = email;
+      newImage.url = imageUrl;
+      newImage.user = userFromDB;
+
+      userFromDB.images.push(newImage);
+      const updatedUser = await dataSource.manager.save(User, userFromDB);
 
       return newImage;
     } catch (err) {
       console.log(err);
-      throw new Error("Failed to update images");
+      throw new Error("Failed to add image");
     }
   }
 }
