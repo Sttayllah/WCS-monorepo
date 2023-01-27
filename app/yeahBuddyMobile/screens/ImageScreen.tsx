@@ -19,11 +19,13 @@ export const ImageScreen = () => {
   const [imagesURI, setImagesURI] = useState<any[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const SCREEN_DIMENSIONS = useWindowDimensions();
+
   useEffect(() => {
     (async () => {
       const images = await FileSystem.readDirectoryAsync(
         FileSystem.cacheDirectory + "ImageManipulator"
       );
+
       setImagesURI(images);
     })();
   }, []);
@@ -34,44 +36,55 @@ export const ImageScreen = () => {
         style={{
           paddingHorizontal: 5,
           paddingVertical: 5,
-          // borderColor: "grey",
-          // borderWidth: 3,
-          // marginRight: 10,
           width: 100,
         }}
       >
         <TouchableOpacity
           style={{ position: "relative" }}
-          onPress={async () => {
-            try {
-              singleFileUploader({
-                distantUrl: "https://wildstagram.nausicaa.wilders.dev/upload",
-                expectedStatusCode: 201,
-                filename: image.item,
-                filetype: "image/jpeg",
-                formDataName: "fileData",
-                localUri:
-                  FileSystem.cacheDirectory + "ImageManipulator/" + image.item,
-                token: token,
-              });
-              alert("woot GG well play quest down");
-            } catch (e) {
-              alert("ou pas " + e);
+          onPress={() =>
+            //   async () => {
+            //   try {
+            //     singleFileUploader({
+            //       distantUrl: "https://wildstagram.nausicaa.wilders.dev/upload",
+            //       expectedStatusCode: 201,
+            //       filename: image.item,
+            //       filetype: "image/jpeg",
+            //       formDataName: "fileData",
+            //       localUri:
+            //         FileSystem.cacheDirectory + "ImageManipulator/" + image.item,
+            //       token: token,
+            //     });
+            //     alert("woot GG well play quest down");
+            //   } catch (e) {
+            //     alert("ou pas " + e);
+            //   }
+            // }
+            {
+              FileSystem.deleteAsync(
+                FileSystem.cacheDirectory + "ImageManipulator/" + image.item
+              );
+              (async () => {
+                const images = await FileSystem.readDirectoryAsync(
+                  FileSystem.cacheDirectory + "ImageManipulator"
+                );
+
+                setImagesURI(images);
+              })();
             }
-          }}
+          }
         >
           <Image
             source={{
               uri: FileSystem.cacheDirectory + "ImageManipulator/" + image.item,
             }}
-            style={{ width: 100, height: 100, paddingHorizontal: 5 }}
+            style={{ width: 100, height: 100 }}
             resizeMode="cover"
           />
           <Ionicons
-            name={"cloud-upload-outline"}
+            name={"trash-outline"}
             size={24}
             color={"white"}
-            style={{ position: "absolute", top: 5, right: 5 }}
+            style={{ position: "absolute", bottom: 1, right: 0 }}
           />
         </TouchableOpacity>
       </View>
