@@ -6,6 +6,7 @@ import { buildSchema } from "type-graphql";
 import { UserResolver } from "./resolver/userResolver";
 import dataSource from "./utils";
 import { ImageResolver } from "./resolver/imageResolver";
+import { CategoryResolver } from "./resolver/categoryResolver";
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ const port = 5000;
 const start = async (): Promise<void> => {
   await dataSource.initialize();
   const schema = await buildSchema({
-    resolvers: [UserResolver, ImageResolver],
+    resolvers: [UserResolver, ImageResolver, CategoryResolver],
     authChecker: ({ context }, roles) => {
       // console.log("roles in decorator", roles);
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
