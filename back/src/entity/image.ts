@@ -6,11 +6,11 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Article } from "./article";
+import { User } from "./user";
 
 @ObjectType()
 @Entity()
-export class Comment {
+export class Image {
   @Field()
   @PrimaryGeneratedColumn()
   id: number;
@@ -21,8 +21,11 @@ export class Comment {
 
   @Field()
   @Column()
-  content: string;
+  url: string;
 
-  @ManyToOne(() => Article, (article) => article.comments)
-  article: Article;
+  @ManyToOne(() => User, (user) => user.images, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
+  user: User;
 }

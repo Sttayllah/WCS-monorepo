@@ -1,5 +1,5 @@
-import * as argon2 from 'argon2';
-import jwt from 'jsonwebtoken';
+import * as argon2 from "argon2";
+import jwt from "jsonwebtoken";
 import {
   Arg,
   Field,
@@ -8,16 +8,16 @@ import {
   Query,
   Resolver,
   Authorized,
-} from 'type-graphql';
-import { User } from '../entity/user';
-import dataSource from '../utils';
+} from "type-graphql";
+import { User } from "../entity/user";
+import dataSource from "../utils";
 
 @Resolver(User)
 export class UserResolver {
   @Query(() => String)
   async getToken(
-    @Arg('email') email: string,
-    @Arg('password') password: string
+    @Arg("email") email: string,
+    @Arg("password") password: string
   ): Promise<string> {
     try {
       const userFromDB = await dataSource.manager.findOneByOrFail(User, {
@@ -46,40 +46,45 @@ export class UserResolver {
       }
     } catch (err) {
       console.log(err);
-      throw new Error('Invalid Auth');
+      throw new Error("Invalid Auth");
     }
   }
 
   @Authorized()
   @Query(() => User)
-  async getOne(@Arg('email') email: string): Promise<User> {
+  async getOne(@Arg("email") email: string): Promise<User> {
     try {
-      const userFromDB = await dataSource.getRepository(User).findOneByOrFail({
-        email,
+      const userFromDB = await dataSource.manager.findOneOrFail(User, {
+        where: { email },
+        relations: {
+          images: true,
+        },
       });
+
       const queryUser: User = {
         id: userFromDB.id,
         email: userFromDB.email,
         pseudo: userFromDB.pseudo,
-        hashedPassword: '',
+        hashedPassword: "",
         role: userFromDB.role,
         description: userFromDB.description || undefined,
         avatar: userFromDB.avatar || undefined,
+        images: userFromDB.images,
       };
       return queryUser;
     } catch (err) {
       console.log(err);
-      throw new Error('Invalid query');
+      throw new Error("Invalid query");
     }
   }
 
   @Mutation(() => User)
   async createUser(
-    @Arg('email') email: string,
-    @Arg('password') password: string,
-    @Arg('pseudo') pseudo: string,
-    @Arg('description') description: string,
-    @Arg('avatar') avatar: string
+    @Arg("email") email: string,
+    @Arg("password") password: string,
+    @Arg("pseudo") pseudo: string,
+    @Arg("description") description?: string,
+    @Arg("avatar") avatar?: string
   ): Promise<User> {
     const newUser = new User();
     newUser.email = email;
@@ -87,26 +92,27 @@ export class UserResolver {
     newUser.pseudo = pseudo;
     newUser.avatar = avatar;
     newUser.hashedPassword = await argon2.hash(password);
-    newUser.role = 'USER';
+    newUser.role = "USER";
+    // newUser.images = [];
     const userFromDB = await dataSource.manager.save(User, newUser);
-    console.log('USER SAVED:', userFromDB);
+    console.log("USER SAVED:", userFromDB);
     return userFromDB;
   }
 
   @Authorized()
   @Mutation(() => User)
   async updateUser(
-    @Arg('email') email: string,
-    @Arg('pseudo') pseudo: string,
-    @Arg('description') description: string,
-    @Arg('avatar') avatar: string
+    @Arg("email") email: string,
+    @Arg("pseudo") pseudo: string,
+    @Arg("description") description: string,
+    @Arg("avatar") avatar: string
   ): Promise<User> {
     try {
       const userFromDB = await dataSource.manager.findOneByOrFail(User, {
         email,
       });
       if (!userFromDB) {
-        throw new Error('User not found');
+        throw new Error("User not found");
       }
       userFromDB.description = description;
       userFromDB.pseudo = pseudo;
@@ -115,18 +121,18 @@ export class UserResolver {
       return updatedUser;
     } catch (err) {
       console.log(err);
-      throw new Error('Failed to update user');
+      throw new Error("Failed to update user");
     }
   }
 
   @Authorized()
   @Mutation(() => String)
-  async deleteUser(@Arg('id') id: number): Promise<String> {
+  async deleteUser(@Arg("id") id: number): Promise<String> {
     try {
       await dataSource.manager.delete(User, id);
-      return 'Deleted user successfully';
+      return "Deleted user successfully";
     } catch (error: any) {
-      throw new Error('Failed to delete user');
+      throw new Error("Failed to delete user");
     }
   }
 }
