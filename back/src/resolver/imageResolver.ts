@@ -8,12 +8,12 @@ export class ImageResolver {
   @Authorized()
   @Mutation(() => Image)
   async addImage(
-    @Arg("id") id: number,
+    @Arg("email") email: string,
     @Arg("imageUrl") imageUrl: string
   ): Promise<Image> {
     try {
       const userFromDB = await dataSource.manager.findOneByOrFail(User, {
-        id,
+        email,
       });
       if (!userFromDB) {
         throw new Error("User not found");
@@ -22,13 +22,17 @@ export class ImageResolver {
       const newImage = new Image();
       newImage.url = imageUrl;
       newImage.user = userFromDB;
+      await dataSource.manager.save(newImage);
 
-      userFromDB.images.push(newImage);
+      if (userFromDB.images) userFromDB.images.push(newImage);
+      else userFromDB.images = [newImage];
+      console.log(userFromDB, "USER after adding image");
       const updatedUser = await dataSource.manager.save(User, userFromDB);
+      console.log(updatedUser, "USER saved");
 
-      return newImage;
-    } catch (err) {
-      console.log(err);
+      // return updatedUser;
+    } catch (err: any) {
+      console.log("ERRROR ", err.message);
       throw new Error("Failed to add image");
     }
   }
