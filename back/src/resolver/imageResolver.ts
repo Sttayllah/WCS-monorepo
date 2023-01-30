@@ -30,7 +30,7 @@ export class ImageResolver {
       const updatedUser = await dataSource.manager.save(User, userFromDB);
       console.log(updatedUser, "USER saved");
 
-      // return updatedUser;
+      return newImage;
     } catch (err: any) {
       console.log("ERRROR ", err.message);
       throw new Error("Failed to add image");
