@@ -23,6 +23,9 @@ export class Image {
   @Column()
   url: string;
 
-  @ManyToOne(() => User, (user) => user.images)
+  @ManyToOne(() => User, (user) => user.images, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
   user: User;
 }

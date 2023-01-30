@@ -24,12 +24,6 @@ export class ImageResolver {
       newImage.user = userFromDB;
       await dataSource.manager.save(newImage);
 
-      if (userFromDB.images) userFromDB.images.push(newImage);
-      else userFromDB.images = [newImage];
-      console.log(userFromDB, "USER after adding image");
-      const updatedUser = await dataSource.manager.save(User, userFromDB);
-      console.log(updatedUser, "USER saved");
-
       return newImage;
     } catch (err: any) {
       console.log("ERRROR ", err.message);

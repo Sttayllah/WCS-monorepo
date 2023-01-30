@@ -54,9 +54,13 @@ export class UserResolver {
   @Query(() => User)
   async getOne(@Arg("email") email: string): Promise<User> {
     try {
-      const userFromDB = await dataSource.getRepository(User).findOneByOrFail({
-        email,
+      const userFromDB = await dataSource.manager.findOneOrFail(User, {
+        where: { email },
+        relations: {
+          images: true,
+        },
       });
+
       const queryUser: User = {
         id: userFromDB.id,
         email: userFromDB.email,
@@ -65,7 +69,7 @@ export class UserResolver {
         role: userFromDB.role,
         description: userFromDB.description || undefined,
         avatar: userFromDB.avatar || undefined,
-        images: userFromDB.images || undefined,
+        images: userFromDB.images,
       };
       return queryUser;
     } catch (err) {
