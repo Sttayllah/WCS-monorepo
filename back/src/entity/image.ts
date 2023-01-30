@@ -15,9 +15,9 @@ export class Image {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // @Field()
-  // @CreateDateColumn()
-  // createdAt: Date;
+  @Field()
+  @CreateDateColumn()
+  createdAt: Date;
 
   @Field()
   @Column()

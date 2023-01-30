@@ -33,5 +33,5 @@ export class User {
 
   @Field(() => [Image])
   @OneToMany(() => Image, (image) => image.user)
-  public images: Image[];
+  public images?: Image[];
 }
