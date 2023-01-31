@@ -6,4 +6,9 @@ import dataSource from "../utils";
 export class BlogResolver {
   // @Query(()=>[Blog])
   // @Mutation(()=> Blog)
+  // update blog
+  // -content
+  // -label
+  // -category
+  // - when create article- search right blog byId - article.blog = blog
 }

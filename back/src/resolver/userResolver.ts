@@ -86,8 +86,8 @@ export class UserResolver {
     @Arg("email") email: string,
     @Arg("password") password: string,
     @Arg("pseudo") pseudo: string,
-    @Arg("description") description?: string,
-    @Arg("avatar") avatar?: string
+    @Arg("description", { nullable: true }) description?: string,
+    @Arg("avatar", { nullable: true }) avatar?: string
   ): Promise<User> {
     const newUser = new User();
     newUser.email = email;
