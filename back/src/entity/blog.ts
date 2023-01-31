@@ -1,13 +1,14 @@
-import { Field, ObjectType } from 'type-graphql';
+import { Field, ObjectType } from "type-graphql";
 import {
   Column,
   Entity,
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
-} from 'typeorm';
-import { Category } from './category';
-import { Article } from './article';
+  CreateDateColumn,
+} from "typeorm";
+import { Category } from "./category";
+import { Article } from "./article";
 
 @ObjectType()
 @Entity()
@@ -20,9 +21,12 @@ export class Blog {
   @Column()
   label: string;
 
+  // @Field()
+  // @Column()
+  // createdAt: string;
   @Field()
-  @Column()
-  createdAt: string;
+  @CreateDateColumn()
+  createdAt: Date;
 
   @Field()
   @Column()
@@ -32,7 +36,7 @@ export class Blog {
   @OneToMany(() => Article, (article) => article.blogAndUserId)
   articles: Article[];
 
-  @Field()
+  @Field(() => Category)
   @ManyToOne(() => Category, (category) => category.blogs)
   public category: Category;
 }
