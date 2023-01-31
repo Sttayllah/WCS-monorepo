@@ -9,6 +9,8 @@ import {
   Resolver,
   Authorized,
 } from "type-graphql";
+import { Category } from "../entity/category";
+import { Blog } from "../entity/blog";
 import { User } from "../entity/user";
 import dataSource from "../utils";
 
@@ -93,9 +95,23 @@ export class UserResolver {
     newUser.avatar = avatar;
     newUser.hashedPassword = await argon2.hash(password);
     newUser.role = "USER";
-    // newUser.images = [];
+
     const userFromDB = await dataSource.manager.save(User, newUser);
     console.log("USER SAVED:", userFromDB);
+
+    const defaultCategory = await dataSource.manager.findOneOrFail(Category, {
+      where: {
+        label: "diverse",
+      },
+    });
+
+    const newBlog = new Blog();
+    newBlog.category = defaultCategory;
+    newBlog.label = "";
+    newBlog.content = "";
+
+    const saveBlog = await dataSource.manager.save(Blog, newBlog);
+
     return userFromDB;
   }
 
