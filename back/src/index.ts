@@ -8,6 +8,7 @@ import dataSource from "./utils";
 import { ImageResolver } from "./resolver/imageResolver";
 import { CategoryResolver } from "./resolver/categoryResolver";
 import { BlogResolver } from "./resolver/blogResolver";
+import { ArticleResolver } from "./resolver/articleResolver";
 
 dotenv.config();
 
@@ -16,7 +17,13 @@ const port = 5000;
 const start = async (): Promise<void> => {
   await dataSource.initialize();
   const schema = await buildSchema({
-    resolvers: [UserResolver, ImageResolver, CategoryResolver, BlogResolver],
+    resolvers: [
+      UserResolver,
+      ImageResolver,
+      CategoryResolver,
+      BlogResolver,
+      ArticleResolver,
+    ],
     authChecker: ({ context }, roles) => {
       // console.log("roles in decorator", roles);
       // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions

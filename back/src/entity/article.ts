@@ -34,7 +34,7 @@ export class Article {
   updatedAt: Date;
 
   @Field({ nullable: true })
-  @Column()
+  @Column({ nullable: true })
   publishedAt?: Date;
 
   @Field()
@@ -46,7 +46,7 @@ export class Article {
   isPublished: boolean;
 
   @ManyToOne(() => Blog, (blog) => blog.articles)
-  blogAndUserId: Blog;
+  blog: Blog;
 
   @Field(() => [Comment])
   @OneToMany(() => Comment, (comment) => comment.article)
