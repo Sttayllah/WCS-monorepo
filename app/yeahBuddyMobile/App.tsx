@@ -24,7 +24,7 @@ const getData = async (key: string) => {
 };
 
 const httpLink = createHttpLink({
-  uri: "http://192.168.1.20:5000/", //personnal IP adress to make Apollo client working
+  uri: "http://192.168.1.13:5000/", //personnal IP adress to make Apollo client working
 });
 const authLink = setContext(async (_, { headers }) => {
   // get the authentication token from local storage if it exists
