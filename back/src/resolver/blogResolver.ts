@@ -6,7 +6,7 @@ import dataSource from "../utils";
 @Resolver(Blog)
 export class BlogResolver {
   @Query(() => [Blog])
-  async getAllBlog(): Promise<Blog[]> {
+  async getAllBlogs(): Promise<Blog[]> {
     try {
       return await dataSource.manager.find(Blog);
     } catch (error: any) {

@@ -33,7 +33,7 @@ export class Blog {
   content: string;
 
   @Field(() => [Article])
-  @OneToMany(() => Article, (article) => article.blogAndUserId)
+  @OneToMany(() => Article, (article) => article.blog)
   articles: Article[];
 
   @Field(() => Category)

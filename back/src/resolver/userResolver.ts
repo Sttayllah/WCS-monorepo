@@ -55,27 +55,22 @@ export class UserResolver {
 
   @Authorized()
   @Query(() => User)
-  async getOne(@Arg("email") email: string): Promise<User> {
+  async getOneUser(@Arg("email") email: string): Promise<User> {
     try {
       const userFromDB = await dataSource.manager.findOneOrFail(User, {
         where: { email },
         relations: {
           images: true,
-          blog: true,
+          blog: {
+            articles: {
+              comments: true,
+              tags: true,
+            },
+            category: true,
+          },
         },
       });
 
-      // const queryUser: User = {
-      //   id: userFromDB.id,
-      //   email: userFromDB.email,
-      //   pseudo: userFromDB.pseudo,
-      //   hashedPassword: "",
-      //   role: userFromDB.role,
-      //   description: userFromDB.description || undefined,
-      //   avatar: userFromDB.avatar || undefined,
-      //   images: userFromDB.images,
-      //   blog: userFromDB.blog,
-      // };
       console.log("=>>>>>USERFROMDB", userFromDB);
       return userFromDB;
     } catch (err) {
