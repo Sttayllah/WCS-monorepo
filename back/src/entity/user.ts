@@ -1,5 +1,13 @@
 import { Field, ObjectType } from "type-graphql";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Blog } from "./blog";
 import { Image } from "./image";
 
 @ObjectType()
@@ -18,11 +26,11 @@ export class User {
   pseudo: string;
 
   @Field({ nullable: true })
-  @Column()
+  @Column({ nullable: true })
   description?: string;
 
   @Field({ nullable: true })
-  @Column()
+  @Column({ nullable: true })
   avatar?: string;
 
   @Column()
@@ -34,4 +42,12 @@ export class User {
   @Field(() => [Image])
   @OneToMany(() => Image, (image) => image.user)
   public images?: Image[];
+
+  @Field(() => Blog)
+  @OneToOne(() => Blog, {
+    cascade: true,
+    onDelete: "CASCADE",
+  })
+  @JoinColumn()
+  blog: Blog;
 }

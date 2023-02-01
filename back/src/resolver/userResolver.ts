@@ -9,6 +9,9 @@ import {
   Resolver,
   Authorized,
 } from "type-graphql";
+import { Category } from "../entity/category";
+import { Blog } from "../entity/blog";
+
 import { User } from "../entity/user";
 import dataSource from "../utils";
 
@@ -54,20 +57,27 @@ export class UserResolver {
   @Query(() => User)
   async getOne(@Arg("email") email: string): Promise<User> {
     try {
-      const userFromDB = await dataSource.getRepository(User).findOneByOrFail({
-        email,
+      const userFromDB = await dataSource.manager.findOneOrFail(User, {
+        where: { email },
+        relations: {
+          images: true,
+          blog: true,
+        },
       });
-      const queryUser: User = {
-        id: userFromDB.id,
-        email: userFromDB.email,
-        pseudo: userFromDB.pseudo,
-        hashedPassword: "",
-        role: userFromDB.role,
-        description: userFromDB.description || undefined,
-        avatar: userFromDB.avatar || undefined,
-        images: userFromDB.images || undefined,
-      };
-      return queryUser;
+
+      // const queryUser: User = {
+      //   id: userFromDB.id,
+      //   email: userFromDB.email,
+      //   pseudo: userFromDB.pseudo,
+      //   hashedPassword: "",
+      //   role: userFromDB.role,
+      //   description: userFromDB.description || undefined,
+      //   avatar: userFromDB.avatar || undefined,
+      //   images: userFromDB.images,
+      //   blog: userFromDB.blog,
+      // };
+      console.log("=>>>>>USERFROMDB", userFromDB);
+      return userFromDB;
     } catch (err) {
       console.log(err);
       throw new Error("Invalid query");
@@ -79,9 +89,22 @@ export class UserResolver {
     @Arg("email") email: string,
     @Arg("password") password: string,
     @Arg("pseudo") pseudo: string,
-    @Arg("description") description?: string,
-    @Arg("avatar") avatar?: string
+    @Arg("description", { nullable: true }) description?: string,
+    @Arg("avatar", { nullable: true }) avatar?: string
   ): Promise<User> {
+    const defaultCategory = await dataSource.manager.findOneOrFail(Category, {
+      where: {
+        label: "diverse",
+      },
+    });
+
+    const newBlog = new Blog();
+    newBlog.category = defaultCategory;
+    newBlog.label = "";
+    newBlog.content = "";
+
+    const saveBlog = await dataSource.manager.save(Blog, newBlog);
+
     const newUser = new User();
     newUser.email = email;
     newUser.description = description;
@@ -89,9 +112,12 @@ export class UserResolver {
     newUser.avatar = avatar;
     newUser.hashedPassword = await argon2.hash(password);
     newUser.role = "USER";
-    // newUser.images = [];
+    newUser.blog = newBlog;
+
+    //make sure relations (blog, images) are sent as well?
     const userFromDB = await dataSource.manager.save(User, newUser);
     console.log("USER SAVED:", userFromDB);
+
     return userFromDB;
   }
 
