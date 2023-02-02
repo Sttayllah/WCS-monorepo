@@ -40,9 +40,9 @@ export class ArticleResolver {
   @Authorized()
   @Mutation(() => Article)
   async updateArticle(
-    @Arg("label") label: string,
-    @Arg("content") content: string,
-    @Arg("isPublished") isPublished: boolean,
+    @Arg("label", { nullable: true }) label?: string,
+    @Arg("content", { nullable: true }) content?: string,
+    @Arg("isPublished", { nullable: true }) isPublished?: boolean,
     @Arg("publishedAt", { nullable: true }) publishedAt?: Date
   ): Promise<Article> {
     try {

@@ -8,12 +8,25 @@ import {
   Query,
   Resolver,
   Authorized,
+  ArgsType,
 } from "type-graphql";
 import { Category } from "../entity/category";
 import { Blog } from "../entity/blog";
 
 import { User } from "../entity/user";
 import dataSource from "../utils";
+
+@InputType({ description: "update user data" })
+class UpdateUserInput implements Partial<User> {
+  @Field({ nullable: true })
+  pseudo?: string;
+
+  @Field({ nullable: true })
+  description?: string;
+
+  @Field({ nullable: true })
+  avatar?: string;
+}
 
 @Resolver(User)
 export class UserResolver {
@@ -82,11 +95,8 @@ export class UserResolver {
   @Authorized()
   @Mutation(() => User)
   async createUser(
-    @Arg("email") email: string,
-    @Arg("password") password: string,
-    @Arg("pseudo") pseudo: string,
-    @Arg("description", { nullable: true }) description?: string,
-    @Arg("avatar", { nullable: true }) avatar?: string
+    @Arg("id") id: number,
+    @Arg("data") updateUserParams: UpdateUserInput
   ): Promise<User> {
     const defaultCategory = await dataSource.manager.findOneOrFail(Category, {
       where: {
