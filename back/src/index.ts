@@ -9,6 +9,7 @@ import { ImageResolver } from "./resolver/imageResolver";
 import { CategoryResolver } from "./resolver/categoryResolver";
 import { BlogResolver } from "./resolver/blogResolver";
 import { ArticleResolver } from "./resolver/articleResolver";
+
 import { CommentResolver } from "./resolver/commentResolver";
 
 dotenv.config();

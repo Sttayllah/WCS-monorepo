@@ -84,4 +84,16 @@ export class ArticleResolver {
       throw new Error("Failed to update article");
     }
   }
+
+  @Authorized()
+  @Mutation(() => String)
+  async deleteArticle(@Arg("id") id: number): Promise<String> {
+    try {
+      await dataSource.manager.delete(Article, id);
+      return "Article user successfully";
+    } catch (error: any) {
+      throw new Error("Failed to delete Article");
+    }
+  }
+
 }
