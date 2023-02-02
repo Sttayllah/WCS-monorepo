@@ -1,9 +1,10 @@
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
 import { Category } from "../entity/category";
 import dataSource from "../utils";
 
 @Resolver(Category)
 export class CategoryResolver {
+  @Authorized()
   @Query(() => [Category])
   async getAllCategories(): Promise<Category[]> {
     try {
@@ -13,6 +14,7 @@ export class CategoryResolver {
     }
   }
 
+  @Authorized()
   @Mutation(() => Category)
   async createCategory(@Arg("label") label: string): Promise<Category> {
     const newCategory = new Category();

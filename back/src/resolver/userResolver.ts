@@ -8,12 +8,25 @@ import {
   Query,
   Resolver,
   Authorized,
+  ArgsType,
 } from "type-graphql";
 import { Category } from "../entity/category";
 import { Blog } from "../entity/blog";
 
 import { User } from "../entity/user";
 import dataSource from "../utils";
+
+@InputType({ description: "update user data" })
+class UpdateUserInput implements Partial<User> {
+  @Field({ nullable: true })
+  pseudo?: string;
+
+  @Field({ nullable: true })
+  description?: string;
+
+  @Field({ nullable: true })
+  avatar?: string;
+}
 
 @Resolver(User)
 export class UserResolver {
@@ -79,6 +92,7 @@ export class UserResolver {
     }
   }
 
+  @Authorized()
   @Mutation(() => User)
   async createUser(
     @Arg("email") email: string,
@@ -119,22 +133,21 @@ export class UserResolver {
   @Authorized()
   @Mutation(() => User)
   async updateUser(
-    @Arg("email") email: string,
-    @Arg("pseudo") pseudo: string,
-    @Arg("description") description: string,
-    @Arg("avatar") avatar: string
+    @Arg("id") id: number,
+    @Arg("data") updateUserParams: UpdateUserInput
   ): Promise<User> {
     try {
-      const userFromDB = await dataSource.manager.findOneByOrFail(User, {
-        email,
-      });
-      if (!userFromDB) {
-        throw new Error("User not found");
-      }
-      userFromDB.description = description;
-      userFromDB.pseudo = pseudo;
-      userFromDB.avatar = avatar;
-      const updatedUser = await dataSource.manager.save(User, userFromDB);
+      const updatedUser: User = await dataSource
+        .createQueryBuilder()
+        .update(User)
+        .set(updateUserParams)
+        .where("id = :id", { id })
+        .returning("*")
+        .execute()
+        .then((response) => {
+          return response.raw[0];
+        });
+
       return updatedUser;
     } catch (err) {
       console.log(err);
