@@ -10,6 +10,8 @@ import { CategoryResolver } from "./resolver/categoryResolver";
 import { BlogResolver } from "./resolver/blogResolver";
 import { ArticleResolver } from "./resolver/articleResolver";
 
+import { CommentResolver } from "./resolver/commentResolver";
+
 dotenv.config();
 
 const port = 5000;
@@ -23,6 +25,7 @@ const start = async (): Promise<void> => {
       CategoryResolver,
       BlogResolver,
       ArticleResolver,
+      CommentResolver,
     ],
     authChecker: ({ context }, roles) => {
       // console.log("roles in decorator", roles);

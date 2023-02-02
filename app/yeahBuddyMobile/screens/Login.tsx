@@ -6,8 +6,45 @@ import {
   TextInput,
   View,
 } from "react-native";
+import * as SecureStore from "expo-secure-store";
+import { gql, useLazyQuery } from "@apollo/client";
+import { useState } from "react";
+import { useUser } from "../contexts/UserContext";
 
-export default function Login() {
+export const GET_TOKEN = gql`
+  query Query($password: String!, $email: String!) {
+    getToken(password: $password, email: $email)
+  }
+`;
+
+export const Login = () => {
+  const [mail, setMail] = useState("");
+  const [password, setPassword] = useState("");
+  // const navigate = useNavigate();//WIP
+  const { setLocalUser } = useUser();
+  const storeData = async (key: string, value: string) => {
+    await SecureStore.setItemAsync(key, value);
+  };
+  const [loadToken] = useLazyQuery(GET_TOKEN, {
+    variables: {
+      email: mail,
+      password: password,
+    },
+    onCompleted(data) {
+      // console.log(data);
+      const res = JSON.parse(data.getToken);
+      // console.log(res);
+      setLocalUser({ ...res.user });
+      storeData("token", res.token);
+      console.log("data", data);
+
+      // navigate('/userzzz');//WIP
+    },
+    onError(error) {
+      console.log(error);
+    },
+  });
+
   return (
     <View style={styles.globalContainer}>
       <View style={styles.formContainer}>
@@ -18,22 +55,31 @@ export default function Login() {
           />
         </View>
         <Text>Email</Text>
-        <TextInput style={styles.input} />
+        <TextInput
+          style={styles.input}
+          placeholder="Type your mail"
+          value={mail}
+          onChangeText={(text) => setMail(text)}
+        />
         <Text>Password</Text>
         <TextInput
           textContentType="password"
           secureTextEntry={true}
           style={styles.input}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
         />
         <View style={{ flex: 1, alignItems: "center", marginTop: 20 }}>
           <Pressable style={styles.button}>
-            <Text style={{ textAlign: "center" }}>Connexion</Text>
+            <Text style={{ textAlign: "center" }} onPress={() => loadToken()}>
+              Connexion
+            </Text>
           </Pressable>
         </View>
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   globalContainer: {

@@ -95,4 +95,5 @@ export class ArticleResolver {
       throw new Error("Failed to delete Article");
     }
   }
+
 }
