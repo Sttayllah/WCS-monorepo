@@ -95,8 +95,11 @@ export class UserResolver {
   @Authorized()
   @Mutation(() => User)
   async createUser(
-    @Arg("id") id: number,
-    @Arg("data") updateUserParams: UpdateUserInput
+    @Arg("email") email: string,
+    @Arg("password") password: string,
+    @Arg("pseudo") pseudo: string,
+    @Arg("description", { nullable: true }) description?: string,
+    @Arg("avatar", { nullable: true }) avatar?: string
   ): Promise<User> {
     const defaultCategory = await dataSource.manager.findOneOrFail(Category, {
       where: {
@@ -130,22 +133,21 @@ export class UserResolver {
   @Authorized()
   @Mutation(() => User)
   async updateUser(
-    @Arg("email") email: string,
-    @Arg("pseudo") pseudo: string,
-    @Arg("description") description: string,
-    @Arg("avatar") avatar: string
+    @Arg("id") id: number,
+    @Arg("data") updateUserParams: UpdateUserInput
   ): Promise<User> {
     try {
-      const userFromDB = await dataSource.manager.findOneByOrFail(User, {
-        email,
-      });
-      if (!userFromDB) {
-        throw new Error("User not found");
-      }
-      userFromDB.description = description;
-      userFromDB.pseudo = pseudo;
-      userFromDB.avatar = avatar;
-      const updatedUser = await dataSource.manager.save(User, userFromDB);
+      const updatedUser: User = await dataSource
+        .createQueryBuilder()
+        .update(User)
+        .set(updateUserParams)
+        .where("id = :id", { id })
+        .returning("*")
+        .execute()
+        .then((response) => {
+          return response.raw[0];
+        });
+
       return updatedUser;
     } catch (err) {
       console.log(err);
