@@ -1,15 +1,24 @@
-import { NavigationContainer } from "@react-navigation/native";
-
 import "react-native-gesture-handler";
+import { NavigationContainer } from "@react-navigation/native";
 import { CameraScreen } from "../screens/CameraScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { ImageScreen } from "../screens/ImageScreen";
-import Login from "../screens/Login";
-import Register from "../screens/Register";
+import { Login } from "../screens/Login";
+import { Register } from "../screens/Register";
+import { Profile } from "../screens/Profile";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Feed from "../screens/Feed";
 
-const Menu = createDrawerNavigator();
+export type RootMenuParamList = {
+  Feed: undefined;
+  Home: undefined;
+  Login: undefined;
+  Register: undefined;
+  Profile: undefined;
+  Camera: undefined;
+  Image: undefined;
+}; //WIP
+const Menu = createDrawerNavigator<RootMenuParamList>();
 
 export default function Header() {
   return (
@@ -29,6 +38,7 @@ export default function Header() {
           name="Login"
           component={Login}
         />
+
         <Menu.Screen
           options={{
             title: "Register",
@@ -47,6 +57,7 @@ export default function Header() {
           name="Feed"
           component={Register}
         />
+
         <Menu.Screen
           options={{
             title: "Feed",
@@ -61,6 +72,7 @@ export default function Header() {
           name="Register"
           component={Feed}
         />
+
         <Menu.Screen
           options={{
             title: "Camera",
@@ -73,7 +85,7 @@ export default function Header() {
               />
             ),
           }}
-          name="camera"
+          name="Camera"
           component={CameraScreen}
         />
 
@@ -91,6 +103,21 @@ export default function Header() {
             ),
           }}
           component={ImageScreen}
+        />
+
+        <Menu.Screen
+          options={{
+            title: "Profile",
+            drawerIcon: ({ focused, size }) => (
+              <Ionicons
+                name={focused ? "person" : "person-outline"}
+                size={size}
+                color={focused ? "#cc987a" : "black"}
+              />
+            ),
+          }}
+          name="Profile"
+          component={Profile}
         />
       </Menu.Navigator>
     </NavigationContainer>

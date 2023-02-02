@@ -1,5 +1,6 @@
 import { Arg, Authorized, Mutation, Query, Resolver } from "type-graphql";
 import { Blog } from "../entity/blog";
+import { Category } from "../entity/category";
 import { User } from "../entity/user";
 import dataSource from "../utils";
 
@@ -36,11 +37,38 @@ export class BlogResolver {
   //   }
   // }
 
-  // @Mutation(()=> Blog)
+  @Mutation(() => Blog)
+  async updateBlog(
+    @Arg("id") id: number,
+    @Arg("label") label: string,
+    @Arg("content") content: string,
+    @Arg("categoryId") categoryId: number
+  ): Promise<Blog> {
+    try {
+      const blogFromDB = await dataSource.manager.findOneByOrFail(Blog, {
+        id,
+      });
+      if (!blogFromDB) {
+        throw new Error("Blog not found");
+      }
 
-  // update blog
-  // -content
-  // -label
-  // -category
-  // - when create article- search right blog byId - article.blog = blog
+      const newCategoryFromDB = await dataSource.manager.findOneOrFail(
+        Category,
+        {
+          where: { id: categoryId },
+        }
+      );
+
+      blogFromDB.content = content;
+      blogFromDB.label = label;
+      blogFromDB.category = newCategoryFromDB;
+
+      const updatedBlog = await dataSource.manager.save(Blog, blogFromDB);
+
+      return updatedBlog;
+    } catch (err) {
+      console.log(err);
+      throw new Error("Failed to update blog");
+    }
+  }
 }
