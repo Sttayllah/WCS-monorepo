@@ -5,6 +5,7 @@ import dataSource from "../utils";
 
 @Resolver(Blog)
 export class BlogResolver {
+  @Authorized()
   @Query(() => [Blog])
   async getAllBlogs(): Promise<Blog[]> {
     try {

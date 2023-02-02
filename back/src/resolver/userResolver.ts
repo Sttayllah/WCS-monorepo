@@ -79,6 +79,7 @@ export class UserResolver {
     }
   }
 
+  @Authorized()
   @Mutation(() => User)
   async createUser(
     @Arg("email") email: string,
