@@ -10,6 +10,7 @@ import * as SecureStore from "expo-secure-store";
 import { gql, useLazyQuery } from "@apollo/client";
 import { useState } from "react";
 import { useUser } from "../contexts/UserContext";
+import { useNavigation } from "@react-navigation/native";
 
 export const GET_TOKEN = gql`
   query Query($password: String!, $email: String!) {
@@ -20,7 +21,7 @@ export const GET_TOKEN = gql`
 export const Login = () => {
   const [mail, setMail] = useState("");
   const [password, setPassword] = useState("");
-  // const navigate = useNavigate();//WIP
+  const navigation = useNavigation(); //WIP
   const { setLocalUser } = useUser();
   const storeData = async (key: string, value: string) => {
     await SecureStore.setItemAsync(key, value);
@@ -31,14 +32,11 @@ export const Login = () => {
       password: password,
     },
     onCompleted(data) {
-      // console.log(data);
       const res = JSON.parse(data.getToken);
-      // console.log(res);
       setLocalUser({ ...res.user });
       storeData("token", res.token);
       console.log("data", data);
-
-      // navigate('/userzzz');//WIP
+      // navigation.navigate('Feed')
     },
     onError(error) {
       console.log(error);

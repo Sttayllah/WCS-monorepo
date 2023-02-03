@@ -17,6 +17,7 @@ export const ADD_IMAGE = gql`
   mutation AddImage($imageUrl: String!, $email: String!) {
     addImage(imageUrl: $imageUrl, email: $email) {
       url
+      id
     }
   }
 `;
