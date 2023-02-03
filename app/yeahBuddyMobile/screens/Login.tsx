@@ -36,7 +36,7 @@ export const Login = () => {
       setLocalUser({ ...res.user });
       storeData("token", res.token);
       console.log("data", data);
-      // navigation.navigate('Feed')
+      (navigation as any).navigate("Feed");
     },
     onError(error) {
       console.log(error);
