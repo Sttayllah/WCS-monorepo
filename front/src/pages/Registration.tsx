@@ -52,9 +52,7 @@ function Registration() {
       password: password,
     },
     onCompleted(data) {
-      // console.log(data);
       const res = JSON.parse(data.getToken);
-      // console.log(res);
       setLocalUser({ ...res.user });
       localStorage.setItem('token', res.token);
       navigate('/userzzz');
@@ -74,7 +72,7 @@ function Registration() {
     },
     onCompleted: () => loadToken(),
     onError(error) {
-      console.log('EEEERRRRRRRRRRROOOOOOORRRRRR', error);
+      console.log('Error:', error);
     },
   });
   return (
@@ -133,10 +131,6 @@ function Registration() {
         <button
           className="registration-btn"
           onClick={() => {
-            console.log('pseudo:', pseudo);
-            console.log('mail:', email);
-            console.log('password:', password);
-
             createUser();
           }}
         >

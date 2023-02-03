@@ -9,7 +9,13 @@ const ADD_PHOTOS = gql`
   }
 `;
 
-const CldUploadWidget = ({ email }: { email: string }) => {
+const CldUploadWidget = ({
+  email,
+  fetchData,
+}: {
+  email: string;
+  fetchData: () => Promise<void>;
+}) => {
   const cloudName = 'dvsg7r2hx';
   const uploadPreset = 'yeahbuddy';
 
@@ -20,9 +26,10 @@ const CldUploadWidget = ({ email }: { email: string }) => {
       cloudName,
       uploadPreset,
     },
-    (error: Error, result: any) => {
+    async (error: Error, result: any) => {
       if (!error && result && result.event === 'success') {
-        addImage({ variables: { email, imageUrl: result.info.public_id } });
+        await addImage({ variables: { email, imageUrl: result.info.public_id } });
+        await fetchData();
       }
     },
   );

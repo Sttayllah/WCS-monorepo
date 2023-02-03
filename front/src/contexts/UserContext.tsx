@@ -1,3 +1,4 @@
+import { gql } from '@apollo/client';
 import React, { useState, useCallback, useEffect } from 'react';
 import { User } from '../model/models';
 
@@ -8,8 +9,24 @@ interface UserContext {
 
 const userContext = React.createContext({} as UserContext);
 
+export const GET_PHOTOS = gql`
+  query Query($email: String!) {
+    getOne(email: $email) {
+      images {
+        id
+        url
+      }
+    }
+  }
+`;
+
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const [localUser, setLocalUser] = useState<User>({} as User);
+
+  // useEffect(() => {
+  //   if (window.localStorage.getItem('token')) {
+  //   }
+  // }, []);
 
   return (
     <userContext.Provider
