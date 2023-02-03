@@ -52,13 +52,10 @@ export class Article {
   @OneToMany(() => Comment, (comment) => comment.article)
   public comments: Comment[];
 
-  //TODO verify la relation entre article et tag
   @Field(() => [Tag])
-  @ManyToMany(() => Tag)
+  @ManyToMany(() => Tag, {
+    cascade: true,
+  })
   @JoinTable()
   tags: Tag[];
-
-  // @Field(() => [Tag])
-  // @OneToMany(() => Tag, (tag) => tag.article)
-  // public tags: Tag[];
 }

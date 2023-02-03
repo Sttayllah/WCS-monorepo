@@ -1,13 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
-import { Article } from "./article";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @ObjectType()
 @Entity()
@@ -17,15 +9,6 @@ export class Tag {
   id: number;
 
   @Field()
-  @Column()
+  @Column({ unique: true })
   label: string;
-
-  //TODO verify la relation entre article et tag
-  // @Field()
-  // @ManyToOne(() => Article, (article) => article.tags)
-  // public article: Article;
-
-  // @ManyToMany(() => Article)
-  // @JoinTable()
-  // categories: Article[];
 }

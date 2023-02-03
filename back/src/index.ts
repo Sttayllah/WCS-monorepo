@@ -9,8 +9,8 @@ import { ImageResolver } from "./resolver/imageResolver";
 import { CategoryResolver } from "./resolver/categoryResolver";
 import { BlogResolver } from "./resolver/blogResolver";
 import { ArticleResolver } from "./resolver/articleResolver";
-
 import { CommentResolver } from "./resolver/commentResolver";
+import { TagResolver } from "./resolver/tagResolver";
 
 dotenv.config();
 
@@ -26,6 +26,7 @@ const start = async (): Promise<void> => {
       BlogResolver,
       ArticleResolver,
       CommentResolver,
+      TagResolver,
     ],
     authChecker: ({ context }, roles) => {
       // console.log("roles in decorator", roles);
