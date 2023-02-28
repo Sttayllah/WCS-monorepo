@@ -3,12 +3,14 @@ import {
   HttpLink,
   InMemoryCache,
   gql,
-} from '@apollo/client/core';
-import fetch from 'cross-fetch';
+} from "@apollo/client/core";
+import fetch from "cross-fetch";
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: 'http://backend:5000/',
+    uri: "http://backend:5000/",
+    // FOR TESTING SCRIPT integration-test
+    /* uri: "http://localhost:5000/",*/
     fetch,
   }),
   cache: new InMemoryCache(),
@@ -36,32 +38,34 @@ const CREATE_USER = gql`
     }
   }
 `;
+const randomEmail =
+  "user" + Math.floor(Math.random() * 100).toString() + "@mail.com";
 
-describe('User resolver', () => {
-  it('create user', async () => {
+describe("User resolver", () => {
+  it("create user", async () => {
     const res = await client.mutate({
       mutation: CREATE_USER,
       variables: {
-        email: 'test',
-        password: 'test',
-        pseudo: 'pseudo',
-        avatar: 'sdfhkqjloqsl',
-        description: 'jkfdhqsjklfhqlkfh',
+        email: randomEmail,
+        password: "test",
+        pseudo: "pseudo",
+        avatar: "sdfhkqjloqsl",
+        description: "jkfdhqsjklfhqlkfh",
       },
     });
 
     expect(res.data?.createUser).toEqual({
-      __typename: 'User',
-      email: 'test',
-      pseudo: 'pseudo',
-      avatar: 'sdfhkqjloqsl',
-      description: 'jkfdhqsjklfhqlkfh',
+      __typename: "User",
+      email: randomEmail,
+      pseudo: "pseudo",
+      avatar: "sdfhkqjloqsl",
+      description: "jkfdhqsjklfhqlkfh",
     });
   });
 
   let token: string;
 
-  it('gets token if user is valid', async () => {
+  it("gets token if user is valid", async () => {
     const res = await client.query({
       query: gql`
         query Query($password: String!, $email: String!) {
@@ -69,13 +73,13 @@ describe('User resolver', () => {
         }
       `,
       variables: {
-        email: 'test',
-        password: 'test',
-        pseudo: 'pseudo',
-        avatar: 'sdfhkqjloqsl',
-        description: 'jkfdhqsjklfhqlkfh',
+        email: randomEmail,
+        password: "test",
+        pseudo: "pseudo",
+        avatar: "sdfhkqjloqsl",
+        description: "jkfdhqsjklfhqlkfh",
       },
-      fetchPolicy: 'no-cache',
+      fetchPolicy: "no-cache",
     });
     expect(JSON.parse(res.data?.getToken).token).toMatch(
       /^[\w-]*\.[\w-]*\.[\w-]*$/
@@ -84,11 +88,11 @@ describe('User resolver', () => {
     token = res.data?.getToken;
   });
 
-  it('query wilder with the token', async () => {
+  it("query user with the token", async () => {
     const res = await client.query({
       query: gql`
         query Query($email: String!) {
-          getOne(email: $email) {
+          getOneUser(email: $email) {
             email
             pseudo
             description
@@ -96,20 +100,20 @@ describe('User resolver', () => {
           }
         }
       `,
-      variables: { password: 'test', email: 'test' },
-      fetchPolicy: 'no-cache',
+      variables: { email: randomEmail },
+      fetchPolicy: "no-cache",
       context: {
         headers: {
-          authorization: 'Bearer ' + token,
+          authorization: "Bearer " + token,
         },
       },
     });
-    expect(res.data?.getOne).toEqual({
-      __typename: 'User',
-      email: 'test',
-      pseudo: 'pseudo',
-      avatar: 'sdfhkqjloqsl',
-      description: 'jkfdhqsjklfhqlkfh',
+    expect(res.data?.getOneUser).toEqual({
+      __typename: "User",
+      email: randomEmail,
+      pseudo: "pseudo",
+      avatar: "sdfhkqjloqsl",
+      description: "jkfdhqsjklfhqlkfh",
     });
   });
 });
