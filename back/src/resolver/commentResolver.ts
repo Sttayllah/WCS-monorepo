@@ -21,10 +21,8 @@ export class CommentResolver {
       }
 
       const newComment = new Comment();
-
       newComment.content = comment;
       newComment.article = articleFromDB;
-
       await dataSource.manager.save(newComment);
 
       return newComment;
