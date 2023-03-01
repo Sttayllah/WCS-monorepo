@@ -8,9 +8,9 @@ import fetch from "cross-fetch";
 
 const client = new ApolloClient({
   link: new HttpLink({
-    uri: "http://backend:5000/",
+    // uri: "http://backend:5000/",
     // FOR TESTING SCRIPT integration-test
-    /* uri: "http://localhost:5000/",*/
+    uri: "http://localhost:5000/",
     fetch,
   }),
   cache: new InMemoryCache(),
