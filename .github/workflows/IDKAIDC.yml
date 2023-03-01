@@ -42,10 +42,10 @@ jobs:
         with:
           push: true
           context: "{{defaultContext}}:front"
-          tags: sttay/yeahbuddy:latest
+          tags: sttay/yeahbuddyfront:latest
       - name: Build back and push
         uses: docker/build-push-action@v4
         with:
           push: true
           context: "{{defaultContext}}:back"
-          tags: sttay/yeahbuddy:latest
+          tags: sttay/yeahbuddyback:latest
