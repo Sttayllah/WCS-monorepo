@@ -87,7 +87,7 @@ describe("User resolver", () => {
     // expect(res.data?.getToken).toMatch(/^[\w-]*\.[\w-]*\.[\w-]*$/);
     token = res.data?.getToken;
   });
-
+  //
   it("query user with the token", async () => {
     const res = await client.query({
       query: gql`
