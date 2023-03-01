@@ -37,9 +37,15 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build and push
+      - name: Build front and push
         uses: docker/build-push-action@v4
         with:
           push: true
-          context: "{{defaultContext}}:client"
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/yeahbuddy:latest
+          context: "{{defaultContext}}:front"
+          tags: sttay/yeahbuddy:latest
+      - name: Build back and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          context: "{{defaultContext}}:back"
+          tags: sttay/yeahbuddy:latest
