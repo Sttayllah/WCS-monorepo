@@ -1,26 +1,17 @@
-import classNames from 'classnames';
 import { PersonFill } from 'react-bootstrap-icons';
-import { isNullOrEmpty } from '../../services/utils';
+// import { isNullOrEmpty } from '../../services/utils';
 
 interface AvatarProps {
   src?: string;
   avatarColor?: string;
   avatarBackgroundColor?: string;
   onClick?: () => void;
+  className?: string;
 }
 export const Avatar = (props: AvatarProps) => {
   return (
     <div
-      className={classNames('')}
-      style={{
-        backgroundColor: props.avatarBackgroundColor,
-        borderRadius: '100%',
-        display: 'flex',
-        width: 100,
-        height: 100,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
+      className={`flex justify-center items-center w-10 h-10 p-1 ${props.className} ${props.avatarBackgroundColor}`}
       onClick={props.onClick && props.onClick}
     >
       {props.src !== 'avatar' ? (

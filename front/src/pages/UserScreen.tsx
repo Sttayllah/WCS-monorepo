@@ -4,10 +4,7 @@ import { articles } from '../model/fakeDatas';
 
 export const UserScreen = () => {
   return (
-    <div
-      className={'userprofileGlobal'}
-      style={{ position: 'relative', top: '150px', height: '80vh' }}
-    >
+    <div className="userprofileGlobal mt-[140px]">
       <Userprofile articles={articles} />
     </div>
   );

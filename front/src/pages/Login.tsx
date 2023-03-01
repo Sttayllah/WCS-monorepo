@@ -20,15 +20,13 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { setLocalUser } = useUser();
-  const [loadToken] = useLazyQuery(GET_TOKEN, {
+  const [getToken] = useLazyQuery(GET_TOKEN, {
     variables: {
       email: mail,
       password: password,
     },
     onCompleted(data) {
-      // console.log(data);
       const res = JSON.parse(data.getToken);
-      // console.log(res);
       setLocalUser({ ...res.user });
       localStorage.setItem('token', res.token);
       navigate('/userzzz');
@@ -37,6 +35,12 @@ function Login() {
       console.log(error);
     },
   });
+
+  const handleKeyPressed = (e: any) => {
+    if (e.keyCode === 13) {
+      getToken();
+    }
+  };
 
   return (
     <div className="login-main-wrapper">
@@ -68,6 +72,7 @@ function Login() {
                 type="password"
                 placeholder="Type your password"
                 value={password}
+                onKeyDown={(e) => handleKeyPressed(e)}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
@@ -77,7 +82,7 @@ function Login() {
         <div className="login-forgot-password-container">
           <p className="login-forgot-password">Forgot password ?</p>
         </div>
-        <button className="login-btn" onClick={() => loadToken()}>
+        <button className="login-btn" onClick={() => getToken()}>
           LOGIN
         </button>
         <p className="signup-social">Or Sign Up Using</p>

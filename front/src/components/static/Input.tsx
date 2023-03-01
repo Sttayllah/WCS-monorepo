@@ -1,5 +1,4 @@
 import { Combobox } from '@headlessui/react';
-import { useState } from 'react';
 import { Label } from './Label';
 
 interface InputProps {
@@ -16,21 +15,17 @@ interface InputProps {
 
 export const Input = (props: InputProps) => {
   return (
-    <>
+    <div className="w-full">
       <Label>{props.label}</Label>
       <Combobox>
         <input
-          style={{
-            color: 'black',
-            borderRadius: '5px',
-            border: '1px solid #cc987a',
-          }}
+          className="text-black rounded-md border-yeahbuddy border w-full p-1"
           type={props.type ? props.type : 'text'}
           value={props.value}
           onChange={props.onChange}
           placeholder={props.placeholder && props.placeholder}
         />
       </Combobox>
-    </>
+    </div>
   );
 };
