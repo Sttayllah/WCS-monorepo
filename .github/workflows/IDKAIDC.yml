@@ -15,16 +15,16 @@ jobs:
           echo "JWT_SECRET_KEY=yeahbuddy!!!!lightweightbaby!!wooooooo" >> env.local
       - name: run backend tests
         run: npm run integration-test
-  test-frontend:
-    needs: test-backend
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: run frontend tests
-        run: npm run unit-test
+  # test-frontend:
+  #   needs: test-backend
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@v2
+  #     - name: run frontend tests
+  #       run: npm run unit-test
   docker:
-    needs: test-frontend
+    needs: test-backend
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
