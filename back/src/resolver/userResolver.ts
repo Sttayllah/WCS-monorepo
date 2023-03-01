@@ -67,8 +67,8 @@ export class UserResolver {
   }
 
   @Authorized()
-  @Query(() => User)
-  async getOneUser(@Arg("email") email: string): Promise<User> {
+  @Query(() => String)
+  async getOneUser(@Arg("email") email: string): Promise<string> {
     try {
       const userFromDB = await dataSource.manager.findOneOrFail(User, {
         where: { email },
@@ -85,7 +85,7 @@ export class UserResolver {
       });
 
       console.log("=>>>>>USERFROMDB", userFromDB);
-      return userFromDB;
+      return JSON.stringify(userFromDB);
     } catch (err) {
       console.log(err);
       throw new Error("Invalid query");
