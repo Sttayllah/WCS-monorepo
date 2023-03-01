@@ -30,4 +30,14 @@ export class ImageResolver {
       throw new Error("Failed to add image");
     }
   }
+  @Authorized()
+  @Mutation(() => String)
+  async deleteImage(@Arg("id") id: number): Promise<String> {
+    try {
+      await dataSource.manager.delete(Image, id);
+      return "Deleted image successfully";
+    } catch (error: any) {
+      throw new Error("Failed to delete image");
+    }
+  }
 }

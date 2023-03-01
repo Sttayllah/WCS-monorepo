@@ -92,9 +92,6 @@ export const Register = () => {
     },
     onError(error) {
       console.log("EEEERRRRRRRRRRROOOOOOORRRRRR", error);
-      // console.log("PWD", password);
-      // console.log("mail", email);
-      // console.log("pseudo", pseudo);
     },
   });
 

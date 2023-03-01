@@ -1,13 +1,17 @@
-import "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
-import { CameraScreen } from "../screens/CameraScreen";
-import { Ionicons } from "@expo/vector-icons";
-import { ImageScreen } from "../screens/ImageScreen";
-import { Login } from "../screens/Login";
-import { Register } from "../screens/Register";
-import { Profile } from "../screens/Profile";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import Feed from "../screens/Feed";
+import 'react-native-gesture-handler';
+import { NavigationContainer } from '@react-navigation/native';
+import { CameraScreen } from '../screens/CameraScreen';
+import { Ionicons } from '@expo/vector-icons';
+import { ImageScreen } from '../screens/ImageScreen';
+import { Login } from '../screens/Login';
+import { Register } from '../screens/Register';
+import { Profile } from '../screens/Profile';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItem,
+} from '@react-navigation/drawer';
+import Feed from '../screens/Feed';
 
 export type RootMenuParamList = {
   Feed: undefined;
@@ -17,6 +21,7 @@ export type RootMenuParamList = {
   Profile: undefined;
   Camera: undefined;
   Image: undefined;
+  Logout: undefined;
 }; //WIP
 const Menu = createDrawerNavigator<RootMenuParamList>();
 
@@ -26,79 +31,79 @@ export default function Header() {
       <Menu.Navigator>
         <Menu.Screen
           options={{
-            title: "Login",
+            title: 'Login',
             drawerIcon: ({ focused, size }) => (
               <Ionicons
-                name={focused ? "log-in" : "log-in-outline"}
+                name={focused ? 'log-in' : 'log-in-outline'}
                 size={size}
-                color={focused ? "#cc987a" : "black"}
+                color={focused ? '#cc987a' : 'black'}
               />
             ),
           }}
-          name="Login"
+          name='Login'
           component={Login}
         />
 
         <Menu.Screen
           options={{
-            title: "Register",
+            title: 'Register',
             drawerIcon: ({ focused, size }) => (
               <Ionicons
                 name={
                   focused
-                    ? "ellipsis-horizontal"
-                    : "ellipsis-horizontal-outline"
+                    ? 'ellipsis-horizontal'
+                    : 'ellipsis-horizontal-outline'
                 }
                 size={size}
-                color={focused ? "#cc987a" : "black"}
+                color={focused ? '#cc987a' : 'black'}
               />
             ),
           }}
-          name="Feed"
+          name='Register'
           component={Register}
         />
 
         <Menu.Screen
           options={{
-            title: "Feed",
+            title: 'Feed',
             drawerIcon: ({ focused, size }) => (
               <Ionicons
-                name={focused ? "share-social" : "share-social-outline"}
+                name={focused ? 'share-social' : 'share-social-outline'}
                 size={size}
-                color={focused ? "#cc987a" : "black"}
+                color={focused ? '#cc987a' : 'black'}
               />
             ),
           }}
-          name="Register"
+          name='Feed'
           component={Feed}
         />
 
         <Menu.Screen
           options={{
-            title: "Camera",
+            title: 'Camera',
             unmountOnBlur: true,
             drawerIcon: ({ focused, size }) => (
               <Ionicons
-                name={focused ? "camera" : "camera-outline"}
+                name={focused ? 'camera' : 'camera-outline'}
                 size={size}
-                color={focused ? "#cc987a" : "black"}
+                color={focused ? '#cc987a' : 'black'}
               />
             ),
           }}
-          name="Camera"
+          name='Camera'
           component={CameraScreen}
         />
 
         <Menu.Screen
-          name="Image"
+          name='Image'
           options={{
-            title: "Image",
+            title: 'Image',
             unmountOnBlur: true,
             drawerIcon: ({ focused, size }) => (
               <Ionicons
-                name={focused ? "image" : "image-outline"}
+                name={focused ? 'image' : 'image-outline'}
                 size={size}
-                color={focused ? "#cc987a" : "black"}
+                color={focused ? '#cc987a' : 'black'}
               />
             ),
           }}
@@ -107,16 +112,16 @@ export default function Header() {
 
         <Menu.Screen
           options={{
-            title: "Profile",
+            title: 'Profile',
             drawerIcon: ({ focused, size }) => (
               <Ionicons
-                name={focused ? "person" : "person-outline"}
+                name={focused ? 'person' : 'person-outline'}
                 size={size}
-                color={focused ? "#cc987a" : "black"}
+                color={focused ? '#cc987a' : 'black'}
               />
             ),
           }}
-          name="Profile"
+          name='Profile'
           component={Profile}
         />
       </Menu.Navigator>
