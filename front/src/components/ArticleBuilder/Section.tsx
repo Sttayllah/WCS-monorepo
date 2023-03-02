@@ -1,19 +1,22 @@
-import { AiOutlinePlus } from 'react-icons/ai';
+import CellsContainer from './CellsContainer';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
-const Section = ({ nbCell }: { nbCell: number }) => {
-  const cells = new Array(nbCell).fill(<SectionCell />);
-  return <div className="w-full flex gap-x-5 p-1 border border-black">{cells.map((e) => e)}</div>;
-};
-
-const SectionCell = () => {
+const Section = ({
+  nb,
+  id,
+  handleDeleteSection,
+}: {
+  nb: number;
+  id: string;
+  handleDeleteSection: (id: string) => void;
+}) => {
   return (
-    <div
-      className="
-        h-7 w-full border border-dashed border-neutral-400 cursor-pointer
-        flex justify-center items-center
-    "
-    >
-      <AiOutlinePlus className="text-neutral-400" />
+    <div key={id} className="relative my-5">
+      <AiFillCloseCircle
+        className="absolute cursor-pointer h-4 w-4 -right-1.5 -top-1.5 text-red-600 bg-white"
+        onClick={() => handleDeleteSection(id)}
+      />
+      <CellsContainer nbCell={nb} />
     </div>
   );
 };

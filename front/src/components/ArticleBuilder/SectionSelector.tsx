@@ -1,27 +1,49 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { AiFillPlusCircle } from 'react-icons/ai';
 import Section from './Section';
-import StructureSelector from './StructureSelector';
-import StructureSelectorSeparator from './StructureSelectorSeparator';
+import SectionStructureSelector from './SectionStructureSelector';
+import idGenerator from '../../utils/idGenerator';
+
+interface ISection {
+  id: string;
+  elem: JSX.Element;
+}
 
 const SectionSelector = () => {
   const [isAddingSection, setIsAddingSection] = useState(false);
-  const [selectedStructure, setSelectedStructure] = useState<JSX.Element[]>([]);
+  const [selectedSections, setSelectedSection] = useState<ISection[]>([]);
 
-  const structureSelector = new Array(4).fill(0);
+  const sectionStructureSelectors = useMemo(() => {
+    const items = new Array(4).fill(0);
+    const _items = items.map((e, i) => (
+      <div key={idGenerator()} onClick={() => handleSelectSectionStructure(i + 1)}>
+        <SectionStructureSelector nbSeparator={i} />
+      </div>
+    ));
+    return _items;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const handleSelectStructure = (nb: number) => {
-    setSelectedStructure((state) => [
-      ...state,
-      <div className="my-5">
-        <Section nbCell={nb} />
-      </div>,
-    ]);
+  const handleDeleteSection = (id: string) =>
+    setSelectedSection((state) => state.filter((section) => section.id !== id));
+
+  const handleSelectSectionStructure = (nb: number) => {
+    const _id = idGenerator();
+    setSelectedSection((state) => {
+      return [
+        ...state,
+        {
+          id: _id,
+          elem: <Section nb={nb} id={_id} key={_id} handleDeleteSection={handleDeleteSection} />,
+        },
+      ];
+    });
   };
 
   return (
     <>
-      {selectedStructure.map((e) => e)}
+      {selectedSections.map((e) => e.elem)}
+
       <div className="border-2 border-dashed border-gray-400 p-10 flex items-center justify-center mt-10">
         {!isAddingSection ? (
           <AiFillPlusCircle
@@ -34,12 +56,7 @@ const SectionSelector = () => {
               <p>Veuillez sélectionner une structure</p>
             </div>
             <div className="flex gap-x-5 items-center justify-center my-6">
-              {structureSelector.map((e, i) => (
-                <div onClick={() => handleSelectStructure(i + 1)}>
-                  <StructureSelector nbSeparator={i} separator={<StructureSelectorSeparator />} />
-                </div>
-              ))}
-              <div onClick={() => handleSelectStructure(1)}></div>
+              {sectionStructureSelectors}
             </div>
             <div className="flex justify-center">
               <button
