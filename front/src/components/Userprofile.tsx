@@ -1,10 +1,12 @@
 import { useContext, useMemo, useState } from 'react';
 import userContext from '../contexts/UserContext';
 import { Article, User } from '../model/models';
+import ArticleBuilder from './ArticleBuilder';
 import Dashboard from './Dashboard';
 import PhotosManager from './PhotosManager';
 import ProfileManager from './ProfileManager';
 import MenuItem from './static/MenuItem';
+import MenuItemLink from './static/MenuItemLink';
 import MenuList from './static/MenuList';
 
 interface UserProfileProps {
@@ -31,6 +33,8 @@ export const Userprofile = (props: UserProfileProps) => {
         return <PhotosManager email={currentUser.email} />;
       case 'ProfileManager':
         return <ProfileManager />;
+      case 'ArticleBuilder':
+        return <ArticleBuilder />;
       default:
         return <Dashboard description={description || ''} pseudo={pseudo} />;
     }
@@ -60,6 +64,7 @@ export const Userprofile = (props: UserProfileProps) => {
             isActive={component === 'ProfileManager'}
             setComponent={setComponent}
           />
+          <MenuItemLink label="New article" />
           <MenuList
             label="Articles"
             items={articles || []}

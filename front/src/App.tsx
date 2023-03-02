@@ -8,6 +8,7 @@ import './App.css';
 
 import Header from './layout/Header';
 import Footer from './layout/Footer';
+import ArticleBuilder from './components/ArticleBuilder';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/userzzz" element={<UserScreen />} />
+          <Route path="/article-builder" element={<ArticleBuilder />} />
         </Routes>
         <Footer />
       </Router>
