@@ -11,10 +11,26 @@ interface ToolButtonProps {
 
 export const ToolButton = (props: ToolButtonProps) => {
   return (
-    <div onMouseDown={props.onClick} style={props.style} draggable onDragStart={props.onDragStart}>
-      <div style={{ display: 'flex', flexDirection: 'row', paddingRight: '10px' }}>
+    <div
+      onMouseDown={props.onClick}
+      style={props.style}
+      draggable
+      onDragStart={props.onDragStart}
+      className={props.className}
+    >
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          alignSelf: 'center',
+          alignItems: 'center',
+          margin: '2px',
+          minWidth: '100px',
+        }}
+      >
         {props.icon}
-        <Label style={{ marginLeft: '10px' }}>{props.title}</Label>
+        <Label>{props.title}</Label>
       </div>
     </div>
   );

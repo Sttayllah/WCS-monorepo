@@ -10,6 +10,8 @@ interface ICell {
 
 const CellsContainer = ({ nbCell }: { nbCell: number }) => {
   const [cells, setCells] = useState<ICell[]>([]);
+  const [onDropZone, setOnDropZone] = useState<boolean>(false);
+  const [id, setId] = useState<string>('');
 
   const createCells = () => {
     const _id = idGenerator();
@@ -34,22 +36,30 @@ const CellsContainer = ({ nbCell }: { nbCell: number }) => {
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    console.log('onDragOver');
+    setId(e.currentTarget.id);
+    setOnDropZone(true);
     e.dataTransfer.dropEffect = 'move';
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>, cellId: string) => {
     console.log('onDrop');
+    setOnDropZone(false);
     const elementType = e.dataTransfer.getData('text');
     replaceCellByElement(cellId, getToolIconProperties(elementType.toUpperCase()).content);
   };
 
   return (
     <div className="w-full flex gap-x-5 p-1 border border-black">
-      {cells.map((el) => (
+      {cells.map((el, idx) => (
         <div
+          style={{
+            backgroundColor:
+              onDropZone && idx.toString() === id ? 'rgba(204, 152, 122, 0.5)' : 'white',
+          }}
           key={idGenerator()}
+          id={idx.toString()}
           className="w-full"
+          onDragLeave={() => setOnDropZone(false)}
           onDragOver={(e) => handleDragOver(e)}
           onDrop={(e) => handleDrop(e, el.id)}
         >
@@ -64,10 +74,7 @@ const Cell = ({ id }: { id: string }) => {
   return (
     <div
       id={id}
-      className="
-        h-7 w-full border border-dashed border-neutral-400 cursor-pointer
-        flex justify-center items-center
-    "
+      className="h-7 w-full border border-dashed border-neutral-400 flex justify-center items-center"
     >
       <AiOutlinePlus className="text-neutral-400 rounded-full" />
     </div>

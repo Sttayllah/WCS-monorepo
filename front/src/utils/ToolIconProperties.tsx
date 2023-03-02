@@ -4,7 +4,7 @@ import * as icons from 'react-bootstrap-icons';
 export interface ToolIconProperties {
   name: keyof typeof icons;
   title: string;
-  style: string;
+  style?: string;
   content: JSX.Element;
   type: string;
   cursor?: string;
@@ -26,12 +26,12 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
               event.dataTransfer.effectAllowed = 'copyMove';
             }}
           >
-            <button className="bg-yeahbuddy p-2 rounded text-white my-5">BOUTON</button>
+            <button className="bg-yeahbuddy p-2 rounded text-white my-2">BOUTON</button>
           </div>
         ),
 
-        style: 'arrow',
-        position: [32, 16],
+        // style: 'arrow',
+        // position: [32, 16],
       };
     case SelectedTool.ICON:
       return {
@@ -50,8 +50,8 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
           </svg>
         ),
         type: 'icon',
-        style: 'pencil',
-        position: [0, 24],
+        // style: 'pencil',
+        // position: [0, 24],
       };
     case SelectedTool.IMAGE:
       return {
@@ -78,8 +78,8 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
           </div>
         ),
         type: 'label',
-        style: 'brush',
-        position: [0, 24],
+        // style: 'brush',
+        // position: [0, 24],
       };
     case SelectedTool.PARAGRAPH:
       return {
@@ -94,8 +94,8 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
           </p>
         ),
         cursor: 'crosshair',
-        style: 'eraserIcon',
-        position: [0, 16],
+        // style: 'eraserIcon',
+        // position: [0, 16],
       };
     // case SelectedTool.EDIT:
     //   return {
@@ -132,15 +132,15 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
           ></iframe>
         ),
         type: 'video',
-        style: 'dash',
-        position: [0, 16],
+        // style: 'dash',
+        // position: [0, 16],
       };
-    case SelectedTool.INTERN_SECTION:
+    case SelectedTool.SECTION:
       return {
         name: 'CardText',
-        title: 'Section interne',
+        title: 'Section',
         content: <div>UNE SECTION INTERNE QUI EST À L'INTÉRIEUR DE LA CAROTTE SOUS LE FRIGO</div>,
-        type: 'internSection',
+        type: 'section',
         style: 'square',
       };
     case SelectedTool.TEXT:
@@ -149,8 +149,8 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
         title: 'Texte',
         content: <div>UN TEXTE</div>,
         type: 'text',
-        style: 'fonts',
-        position: [16, 16],
+        // style: 'fonts',
+        // position: [16, 16],
       };
 
     // case SelectedTool.DELETE_ALL:
