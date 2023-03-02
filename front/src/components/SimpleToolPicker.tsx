@@ -1,9 +1,11 @@
+import { useState } from 'react';
+import { BsCursorFill } from 'react-icons/bs';
 import { getToolIconProperties } from '../utils/ToolIconProperties';
-import { BaseIcon, SMALL_ICON_SIZE } from './BaseIcon';
+import { BaseIcon, NORMAL_ICON_SIZE, SMALL_ICON_SIZE } from './BaseIcon';
 import { ToolButton } from './ToolButton';
 
 export enum SelectedTool {
-  NONE = 'NONE',
+  // NONE = 'NONE',
   LABEL = 'LABEL',
   SEPARATOR = 'SEPARATOR',
   PARAGRAPH = 'PARAGRAPH',
@@ -12,11 +14,11 @@ export enum SelectedTool {
   BUTTON = 'BUTTON',
   ICON = 'ICON',
   TEXT = 'TEXT',
-  INTERN_SECTION = 'INTERN_SECTION',
-  EDIT = 'EDIT',
-  DELETE = 'DELETE',
-  DELETE_ALL = 'DELETE_ALL',
-  BACKGROUND_COLOR = 'BACKGROUND_COLOR',
+  SECTION = 'SECTION',
+  // EDIT = 'EDIT',
+  // DELETE = 'DELETE',
+  // DELETE_ALL = 'DELETE_ALL',
+  // BACKGROUND_COLOR = 'BACKGROUND_COLOR',
 }
 
 interface SimpleToolPickerProps {
@@ -33,18 +35,20 @@ interface SimpleToolPickerProps {
 
 export const SimpleToolPicker = (props: SimpleToolPickerProps) => {
   console.log('props.availableTools.length :', props.availableTools.length);
+  const [cursor, setCursor] = useState<string>('pointer');
 
   return (
     <div
       className={'container'}
       style={{
         maxWidth: props.maxWidth,
-        cursor: 'pointer',
         position: 'relative',
         padding: 20,
         gap: 10,
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
       }}
     >
       {props.availableTools.map((t: any, i) => {
@@ -53,18 +57,20 @@ export const SimpleToolPicker = (props: SimpleToolPickerProps) => {
         return (
           <ToolButton
             key={'edit' + i}
-            style={{ paddingRight: '10px', backgroundColor: 'cyan' }}
+            className="bg-yeahbuddy p-2 text-lightweight shadow-md rounded "
+            style={{ cursor: cursor }}
             icon={
               <BaseIcon
-                style={{ paddingRight: '10px' }}
                 iconName={toolItemProperties.name}
-                size={SMALL_ICON_SIZE * 1.5}
+                size={NORMAL_ICON_SIZE * 1.5}
                 color={'white'}
               />
             }
             title={toolItemProperties.title}
             onClick={() => {
               props.onToolSelected(t);
+              setCursor('grab');
+              console.log(t);
             }}
             onDragStart={props.onDragStart}
           />
