@@ -21,7 +21,6 @@ export class CategoryResolver {
     newCategory.label = label;
 
     const categoryFromDB = await dataSource.manager.save(newCategory);
-    console.log("Category SAVED:", categoryFromDB);
     return categoryFromDB;
   }
 }
