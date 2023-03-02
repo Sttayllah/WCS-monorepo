@@ -101,11 +101,18 @@ export class UserResolver {
     @Arg("description", { nullable: true }) description?: string,
     @Arg("avatar", { nullable: true }) avatar?: string
   ): Promise<User> {
-    const defaultCategory = await dataSource.manager.findOneOrFail(Category, {
+    let defaultCategory = await dataSource.manager.findOne(Category, {
       where: {
         label: "diverse",
       },
     });
+
+    if (!defaultCategory) {
+      const newCategory = new Category();
+      newCategory.label = "diverse";
+
+      defaultCategory = await dataSource.manager.save(newCategory);
+    }
 
     const newBlog = new Blog();
     newBlog.category = defaultCategory;

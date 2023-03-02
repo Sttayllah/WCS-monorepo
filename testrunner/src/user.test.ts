@@ -16,13 +16,13 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const createCategory = gql`
-  mutation Mutation($label: String!) {
-    createCategory(label: $label) {
-      label
-    }
-  }
-`;
+// const createCategory = gql`
+//   mutation Mutation($label: String!) {
+//     createCategory(label: $label) {
+//       label
+//     }
+//   }
+// `;
 
 const CREATE_USER = gql`
   mutation Mutation(
@@ -50,19 +50,19 @@ const randomEmail =
   "user" + Math.floor(Math.random() * 100).toString() + "@mail.com";
 
 describe("User resolver", () => {
-  it("create category", async () => {
-    const res = await client.mutate({
-      mutation: createCategory,
-      variables: {
-        label: "diverse",
-      },
-    });
+  // it("create category", async () => {
+  //   const res = await client.mutate({
+  //     mutation: createCategory,
+  //     variables: {
+  //       label: "diverse",
+  //     },
+  //   });
 
-    expect(res.data?.createCategory).toEqual({
-      __typename: "Category",
-      label: "diverse",
-    });
-  });
+  //   expect(res.data?.createCategory).toEqual({
+  //     __typename: "Category",
+  //     label: "diverse",
+  //   });
+  // });
 
   it("create user", async () => {
     const res = await client.mutate({
