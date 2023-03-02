@@ -1,7 +1,6 @@
 import { useContext, useMemo, useState } from 'react';
 import userContext from '../contexts/UserContext';
 import { Article, User } from '../model/models';
-import ArticleBuilder from './ArticleBuilder';
 import Dashboard from './Dashboard';
 import PhotosManager from './PhotosManager';
 import ProfileManager from './ProfileManager';
@@ -33,8 +32,6 @@ export const Userprofile = (props: UserProfileProps) => {
         return <PhotosManager email={currentUser.email} />;
       case 'ProfileManager':
         return <ProfileManager />;
-      case 'ArticleBuilder':
-        return <ArticleBuilder />;
       default:
         return <Dashboard description={description || ''} pseudo={pseudo} />;
     }
