@@ -18,9 +18,9 @@ function Header() {
   };
   return (
     <header className="header-wrapper">
-      <div className="img-header">
+      <div>
         <Link to={`/`}>
-          <img src={Logo} alt="logo" />
+          <img src={Logo} alt="logo" className="h-14 cursor-pointer" />
         </Link>
       </div>
       <div className="header-btn-wrapper">
