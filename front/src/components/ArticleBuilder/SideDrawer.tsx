@@ -1,7 +1,30 @@
-const SideDrawer = ({ elements }: { elements: JSX.Element[] }) => {
+import { useState } from 'react';
+import { getToolIconProperties } from '../../utils/ToolIconProperties';
+import { SelectedTool, SimpleToolPicker } from '../SimpleToolPicker';
+interface SideDrawerProps {
+  showControls?: boolean;
+  onToolSelected: (tool: any) => void;
+}
+const SideDrawer = (props: SideDrawerProps) => {
+  const [selectedTool, setSelectedTool] = useState<SelectedTool>(
+    props.showControls ? SelectedTool.LABEL : SelectedTool.NONE,
+  );
+  const [elementType, setElementType] = useState<string>('');
+  const onDragStart = (event: React.DragEvent<HTMLDivElement>) => {
+    event.dataTransfer.setData('text', elementType);
+  };
   return (
     <aside className="sticky h-[80vh] w-64 bg-pink-500 overflow-y-scroll">
-      {elements.map((e) => e)}
+      <SimpleToolPicker
+        availableTools={Array.from(Object.values(SelectedTool)) as SelectedTool[]}
+        selectedTool={getToolIconProperties(selectedTool)}
+        onToolSelected={(tool: SelectedTool) => {
+          setSelectedTool(tool);
+          setElementType(getToolIconProperties(tool).type);
+          props.onToolSelected(tool);
+        }}
+        onDragStart={onDragStart}
+      />
     </aside>
   );
 };
