@@ -1,4 +1,4 @@
-import SectionSelector from './SectionGenerator';
+import SectionSelector from './SectionSelector';
 
 const ArticleDroppablePage = () => {
   return (
