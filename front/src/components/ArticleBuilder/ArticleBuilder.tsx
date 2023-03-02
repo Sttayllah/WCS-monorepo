@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { getToolIconProperties } from '../../utils/ToolIconProperties';
 import { SelectedTool } from '../SimpleToolPicker';
 import ArticleDroppablePage from './ArticleDroppablePage';
+
 import SideDrawer from './SideDrawer';
 
 const ArticleBuilder = () => {
@@ -15,7 +16,7 @@ const ArticleBuilder = () => {
   };
   const onDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    const id = event.dataTransfer.getData('text');
+    // const id = event.dataTransfer.getData('text');
     const toolIconProperties = getToolIconProperties(selectedTool);
     let element: JSX.Element = toolIconProperties.content;
     setDroppedElements([...droppedElements, element]);
