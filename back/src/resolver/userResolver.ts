@@ -8,7 +8,6 @@ import {
   Query,
   Resolver,
   Authorized,
-  ArgsType,
 } from "type-graphql";
 import { Category } from "../entity/category";
 import { Blog } from "../entity/blog";

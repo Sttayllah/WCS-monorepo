@@ -10,7 +10,15 @@ export class BlogResolver {
   @Query(() => [Blog])
   async getAllBlogs(): Promise<Blog[]> {
     try {
-      return await dataSource.manager.find(Blog);
+      return await dataSource.manager.find(Blog, {
+        relations: {
+          category: true,
+          articles: {
+            comments: true,
+            tags: true,
+          },
+        },
+      });
     } catch (error: any) {
       throw new Error(error.message);
     }
@@ -19,9 +27,9 @@ export class BlogResolver {
   @Mutation(() => Blog)
   async updateBlog(
     @Arg("id") id: number,
-    @Arg("label") label: string,
-    @Arg("content") content: string,
-    @Arg("categoryId") categoryId: number
+    @Arg("label", { nullable: true }) label?: string,
+    @Arg("content", { nullable: true }) content?: string,
+    @Arg("categoryLabel", { nullable: true }) categoryLabel?: string
   ): Promise<Blog> {
     try {
       const blogFromDB = await dataSource.manager.findOneByOrFail(Blog, {
@@ -30,16 +38,28 @@ export class BlogResolver {
       if (!blogFromDB) {
         throw new Error("Blog not found");
       }
-      const newCategoryFromDB = await dataSource.manager.findOneOrFail(
-        Category,
-        {
-          where: { id: categoryId },
-        }
-      );
 
-      blogFromDB.content = content;
-      blogFromDB.label = label;
-      blogFromDB.category = newCategoryFromDB;
+      if (categoryLabel) {
+        let categoryFromDB = await dataSource.manager.findOne(Category, {
+          where: { label: categoryLabel },
+        });
+
+        if (!categoryFromDB) {
+          const newCategory = new Category();
+
+          newCategory.label = categoryLabel;
+          categoryFromDB = await dataSource.manager.save(newCategory);
+        }
+        blogFromDB.category = categoryFromDB;
+      }
+
+      if (label) {
+        blogFromDB.label = label;
+      }
+
+      if (content) {
+        blogFromDB.content = content;
+      }
       const updatedBlog = await dataSource.manager.save(Blog, blogFromDB);
 
       return updatedBlog;

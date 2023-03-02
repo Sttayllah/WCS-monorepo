@@ -4,7 +4,6 @@ import {
   Field,
   InputType,
   Mutation,
-  Query,
   Resolver,
 } from "type-graphql";
 import { Blog } from "../entity/blog";
@@ -30,7 +29,7 @@ class UpdateArticleInput implements Partial<Article> {
 export class ArticleResolver {
   @Authorized()
   @Mutation(() => Article)
-  async addArticle(
+  async createArticle(
     @Arg("label") label: string,
     @Arg("content") content: string,
     @Arg("isPublished") isPublished: boolean,
@@ -95,5 +94,4 @@ export class ArticleResolver {
       throw new Error("Failed to delete Article");
     }
   }
-
 }
