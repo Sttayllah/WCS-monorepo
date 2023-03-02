@@ -10,7 +10,7 @@ export interface ToolIconProperties {
   cursor?: string;
   position?: number[];
 }
-export const getToolIconProperties = (tool: SelectedTool): ToolIconProperties => {
+export const getToolIconProperties = (tool: string): ToolIconProperties => {
   switch (tool) {
     case SelectedTool.BUTTON:
       return {
@@ -26,7 +26,7 @@ export const getToolIconProperties = (tool: SelectedTool): ToolIconProperties =>
               event.dataTransfer.effectAllowed = 'copyMove';
             }}
           >
-            <button className="bg-yeahbuddy p-2 rounded text-white my-5">CECI EST UN BOUTON</button>
+            <button className="bg-yeahbuddy p-2 rounded text-white my-5">BOUTON</button>
           </div>
         ),
 
@@ -74,7 +74,7 @@ export const getToolIconProperties = (tool: SelectedTool): ToolIconProperties =>
               event.dataTransfer.setData('text', event.currentTarget.id);
             }}
           >
-            LABEL
+            Ceci est un titre
           </div>
         ),
         type: 'label',
