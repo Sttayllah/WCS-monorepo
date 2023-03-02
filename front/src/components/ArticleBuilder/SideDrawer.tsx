@@ -14,7 +14,7 @@ const SideDrawer = (props: SideDrawerProps) => {
     event.dataTransfer.setData('text', elementType);
   };
   return (
-    <aside className="sticky h-[80vh] w-64 bg-pink-500 overflow-y-scroll">
+    <aside className="sticky h-[80vh] w-64 bg-yeahbuddy overflow-y-scroll">
       <SimpleToolPicker
         availableTools={Array.from(Object.values(SelectedTool)) as SelectedTool[]}
         selectedTool={getToolIconProperties(selectedTool)}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AiOutlinePlus } from 'react-icons/ai';
 import idGenerator from '../../utils/idGenerator';
-import DragableItem from './DraggableItem';
+import { getToolIconProperties } from '../../utils/ToolIconProperties';
 
 interface ICell {
   id: string;
@@ -41,15 +41,7 @@ const CellsContainer = ({ nbCell }: { nbCell: number }) => {
   const handleDrop = (e: React.DragEvent<HTMLDivElement>, cellId: string) => {
     console.log('onDrop');
     const elementType = e.dataTransfer.getData('text');
-
-    switch (elementType) {
-      case 'draggableItem':
-        replaceCellByElement(cellId, <DragableItem id={idGenerator()} />);
-        break;
-
-      default:
-        break;
-    }
+    replaceCellByElement(cellId, getToolIconProperties(elementType.toUpperCase()).content);
   };
 
   return (
