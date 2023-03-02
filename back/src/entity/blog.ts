@@ -21,9 +21,6 @@ export class Blog {
   @Column()
   label: string;
 
-  // @Field()
-  // @Column()
-  // createdAt: string;
   @Field()
   @CreateDateColumn()
   createdAt: Date;
