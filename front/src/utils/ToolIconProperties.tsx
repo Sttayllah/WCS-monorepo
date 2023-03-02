@@ -139,7 +139,7 @@ export const getToolIconProperties = (tool: string): ToolIconProperties => {
       return {
         name: 'CardText',
         title: 'Section interne',
-        content: <div>UNE SECTION INTERNE</div>,
+        content: <div>UNE SECTION INTERNE QUI EST À L'INTÉRIEUR DE LA CAROTTE SOUS LE FRIGO</div>,
         type: 'internSection',
         style: 'square',
       };
