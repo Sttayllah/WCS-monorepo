@@ -3,8 +3,9 @@ import { AiFillPlusCircle } from 'react-icons/ai';
 import Section from './Section';
 import SectionStructureSelector from './SectionStructureSelector';
 import idGenerator from '../../utils/idGenerator';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useLazyQuery, useMutation } from '@apollo/client';
 import { useUser } from '../../contexts/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 export const CREATE_ARTICLE = gql`
   mutation Mutation(
@@ -21,7 +22,31 @@ export const CREATE_ARTICLE = gql`
       blogId: $blogId
       publishedAt: $publishedAt
     ) {
+      id
       label
+      createdAt
+      updatedAt
+      publishedAt
+      content
+      isPublished
+    }
+  }
+`;
+
+const REFETCH_ARTICLES = gql`
+  query Query($email: String!) {
+    getOneUser(email: $email) {
+      blog {
+        articles {
+          id
+          label
+          createdAt
+          updatedAt
+          publishedAt
+          content
+          isPublished
+        }
+      }
     }
   }
 `;
@@ -32,11 +57,13 @@ interface ISection {
 }
 
 const SectionSelector = () => {
-  const { user } = useUser();
+  const { user, setLocalUser } = useUser();
   const [isAddingSection, setIsAddingSection] = useState(false);
   const [selectedSections, setSelectedSection] = useState<ISection[]>([]);
   const [cellsContainerIds, setCellsContainerIds] = useState<string[]>([]);
   const [createArticle] = useMutation(CREATE_ARTICLE);
+  const [refetchArticles] = useLazyQuery(REFETCH_ARTICLES);
+  const navigate = useNavigate();
 
   const sectionStructureSelectors = useMemo(() => {
     const items = new Array(4).fill(0);
@@ -101,7 +128,11 @@ const SectionSelector = () => {
         blogId: user.blogId,
         publishedAt: new Date(),
       },
+      onCompleted(data) {
+        setLocalUser((state) => ({ ...state, articles: [...state.articles, data.createArticle] }));
+      },
     });
+    navigate('/userzzz');
   };
 
   return (

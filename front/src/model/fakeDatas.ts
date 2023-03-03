@@ -9,6 +9,7 @@ export const users: User[] = [
     description: 'description1',
     avatar: 'test1',
     blogId: 9999999,
+    articles: [],
   },
   {
     id: 2,
@@ -18,6 +19,7 @@ export const users: User[] = [
     description: 'description2',
     avatar: 'test2',
     blogId: 9999999,
+    articles: [],
   },
   {
     id: 3,
@@ -27,6 +29,7 @@ export const users: User[] = [
     description: 'description3',
     avatar: 'test3',
     blogId: 9999999,
+    articles: [],
   },
   {
     id: 4,
@@ -36,6 +39,7 @@ export const users: User[] = [
     description: 'description4',
     avatar: 'test4',
     blogId: 9999999,
+    articles: [],
   },
   {
     id: 5,
@@ -45,6 +49,7 @@ export const users: User[] = [
     description: 'description5',
     avatar: 'test5',
     blogId: 9999999,
+    articles: [],
   },
 ];
 
@@ -57,7 +62,6 @@ export const articles: Article[] = [
     publishedAt: null,
     updatedAt: null,
     isPublished: false,
-    userId: 2,
   },
   {
     id: 2,
@@ -67,7 +71,6 @@ export const articles: Article[] = [
     publishedAt: null,
     updatedAt: null,
     isPublished: false,
-    userId: 5,
   },
   {
     id: 3,
@@ -77,7 +80,6 @@ export const articles: Article[] = [
     publishedAt: 4556,
     updatedAt: null,
     isPublished: true,
-    userId: 1,
   },
   {
     id: 4,
@@ -87,7 +89,6 @@ export const articles: Article[] = [
     publishedAt: null,
     updatedAt: null,
     isPublished: false,
-    userId: 1,
   },
   {
     id: 5,
@@ -97,6 +98,5 @@ export const articles: Article[] = [
     publishedAt: 123456,
     updatedAt: 851443,
     isPublished: true,
-    userId: 4,
   },
 ];

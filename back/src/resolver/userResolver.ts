@@ -75,10 +75,7 @@ export class UserResolver {
         relations: {
           images: true,
           blog: {
-            articles: {
-              comments: true,
-              tags: true,
-            },
+            articles: true,
             category: true,
           },
         },
