@@ -38,10 +38,21 @@ const CREATE_USER = gql`
   }
 `;
 
+const GET_BLOG_ID = gql`
+  query Query($email: String!) {
+    getOneUser(email: $email) {
+      blog {
+        id
+      }
+    }
+  }
+`;
+
 function Registration() {
   const [pseudo, setPseudo] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [getBlogId] = useLazyQuery(GET_BLOG_ID, { variables: { email } });
 
   const { setLocalUser } = useUser();
   const navigate = useNavigate();
@@ -51,9 +62,13 @@ function Registration() {
       email: email,
       password: password,
     },
-    onCompleted(data) {
+    async onCompleted(data) {
       const res = JSON.parse(data.getToken);
       setLocalUser({ ...res.user });
+      const blogId = await getBlogId();
+
+      setLocalUser((state) => ({ ...state, blogId: blogId.data.getOneUser.blog.id }));
+
       localStorage.setItem('token', res.token);
       navigate('/userzzz');
     },

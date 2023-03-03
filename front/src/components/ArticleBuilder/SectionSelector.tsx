@@ -92,22 +92,13 @@ const SectionSelector = () => {
         }
         return '';
       });
-    // console.log({
-    //   variables: {
-    //     label: 'Is it going to work???',
-    //     content: htmlString,
-    //     isPublished: true,
-    //     blogId: 1,
-    //     publishedAt: Date.now(),
-    //   },
-    // });
 
     await createArticle({
       variables: {
-        label: 'Is it going to work???',
+        label: 'Article from blog n°' + user.blogId,
         content: htmlString,
         isPublished: true,
-        blogId: 1,
+        blogId: user.blogId,
         publishedAt: new Date(),
       },
     });
