@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { BsCursorFill } from 'react-icons/bs';
 import { getToolIconProperties } from '../utils/ToolIconProperties';
-import { BaseIcon, NORMAL_ICON_SIZE, SMALL_ICON_SIZE } from './BaseIcon';
+import { BaseIcon, NORMAL_ICON_SIZE } from './BaseIcon';
 import { ToolButton } from './ToolButton';
 
 export enum SelectedTool {

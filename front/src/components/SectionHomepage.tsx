@@ -45,6 +45,7 @@ const SectionHomePage = ({
       return tmp;
     });
     return formatedContent;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const returnFormatedWidth = (arr: (string | undefined)[]) => {
