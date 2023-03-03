@@ -4,10 +4,7 @@ import mostVisitedBlogs from '../fakeData/mostVisitedBlogs.json';
 import mostUsedTags from '../fakeData/mostUsedTags.json';
 import mostUsedCategories from '../fakeData/mostUsedCategories.json';
 import { mostViewedBlogsHeader, mostViewedArticleHeader } from '../staticData/tableHeaders';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import hero from '../assets/hero.png';
-import { url } from 'inspector';
 import { Button } from '../components/static/Button';
 
 function Home() {
