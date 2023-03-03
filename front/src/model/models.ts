@@ -1,5 +1,6 @@
 export interface User {
   id: number;
+  blogId: number;
   pseudo: string;
   email: string;
   password?: string;

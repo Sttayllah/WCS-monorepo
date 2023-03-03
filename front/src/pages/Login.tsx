@@ -15,19 +15,32 @@ export const GET_TOKEN = gql`
   }
 `;
 
+const GET_BLOG_ID = gql`
+  query Query($email: String!) {
+    getOneUser(email: $email) {
+      blog {
+        id
+      }
+    }
+  }
+`;
+
 function Login() {
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { setLocalUser } = useUser();
+  const [getBlogId] = useLazyQuery(GET_BLOG_ID, { variables: { email: mail } });
   const [getToken] = useLazyQuery(GET_TOKEN, {
     variables: {
       email: mail,
       password: password,
     },
-    onCompleted(data) {
+    async onCompleted(data) {
       const res = JSON.parse(data.getToken);
       setLocalUser({ ...res.user });
+      const blogId = await getBlogId();
+      setLocalUser((state) => ({ ...state, blogId: blogId.data.getOneUser.blog.id }));
       localStorage.setItem('token', res.token);
       navigate('/userzzz');
     },

@@ -8,6 +8,7 @@ export const users: User[] = [
     password: 'pass1',
     description: 'description1',
     avatar: 'test1',
+    blogId: 9999999,
   },
   {
     id: 2,
@@ -16,6 +17,7 @@ export const users: User[] = [
     password: 'pass2',
     description: 'description2',
     avatar: 'test2',
+    blogId: 9999999,
   },
   {
     id: 3,
@@ -24,6 +26,7 @@ export const users: User[] = [
     password: 'pass3',
     description: 'description3',
     avatar: 'test3',
+    blogId: 9999999,
   },
   {
     id: 4,
@@ -32,6 +35,7 @@ export const users: User[] = [
     password: 'pass4',
     description: 'description4',
     avatar: 'test4',
+    blogId: 9999999,
   },
   {
     id: 5,
@@ -40,6 +44,7 @@ export const users: User[] = [
     password: 'pass5',
     description: 'description5',
     avatar: 'test5',
+    blogId: 9999999,
   },
 ];
 
