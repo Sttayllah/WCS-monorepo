@@ -50,6 +50,7 @@ export class UserResolver {
         return JSON.stringify({
           token,
           user: {
+            id: userFromDB.id,
             pseudo: userFromDB.pseudo,
             email: userFromDB.email,
             avatar: userFromDB.avatar,
