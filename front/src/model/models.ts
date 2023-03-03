@@ -6,15 +6,15 @@ export interface User {
   password?: string;
   description?: string;
   avatar?: string;
+  articles: Article[];
 }
 
 export interface Article {
-  id: number;
-  userId: number;
-  label: string;
-  createdAt: number;
   content: string;
+  createdAt: number;
+  id: number;
   isPublished: boolean;
+  label: string;
   publishedAt?: number | null;
   updatedAt?: number | null;
 }

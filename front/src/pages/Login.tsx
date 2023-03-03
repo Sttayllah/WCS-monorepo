@@ -15,11 +15,20 @@ export const GET_TOKEN = gql`
   }
 `;
 
-const GET_BLOG_ID = gql`
+const GET_USER_DATA = gql`
   query Query($email: String!) {
     getOneUser(email: $email) {
       blog {
         id
+        articles {
+          id
+          label
+          createdAt
+          updatedAt
+          publishedAt
+          content
+          isPublished
+        }
       }
     }
   }
@@ -30,7 +39,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const { setLocalUser } = useUser();
-  const [getBlogId] = useLazyQuery(GET_BLOG_ID, { variables: { email: mail } });
+  const [getUserData] = useLazyQuery(GET_USER_DATA, { variables: { email: mail } });
   const [getToken] = useLazyQuery(GET_TOKEN, {
     variables: {
       email: mail,
@@ -39,9 +48,17 @@ function Login() {
     async onCompleted(data) {
       const res = JSON.parse(data.getToken);
       setLocalUser({ ...res.user });
-      const blogId = await getBlogId();
-      setLocalUser((state) => ({ ...state, blogId: blogId.data.getOneUser.blog.id }));
+
+      const userData = await getUserData();
+
+      setLocalUser((state) => ({
+        ...state,
+        blogId: userData.data.getOneUser.blog.id,
+        articles: userData.data.getOneUser.blog.articles,
+      }));
+
       localStorage.setItem('token', res.token);
+
       navigate('/userzzz');
     },
     onError(error) {
