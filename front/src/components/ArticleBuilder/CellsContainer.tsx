@@ -8,7 +8,13 @@ interface ICell {
   cell: JSX.Element;
 }
 
-const CellsContainer = ({ nbCell }: { nbCell: number }) => {
+const CellsContainer = ({
+  nbCell,
+  cellsContainerId,
+}: {
+  nbCell: number;
+  cellsContainerId: string;
+}) => {
   const [cells, setCells] = useState<ICell[]>([]);
   const [onDropZone, setOnDropZone] = useState<boolean>(false);
   const [id, setId] = useState<string>('');
@@ -30,6 +36,7 @@ const CellsContainer = ({ nbCell }: { nbCell: number }) => {
       }
       return e;
     });
+    console.log(_cells);
     setCells(_cells);
   };
 
@@ -49,23 +56,25 @@ const CellsContainer = ({ nbCell }: { nbCell: number }) => {
   };
 
   return (
-    <div className="w-full flex gap-x-5 p-1 border border-black">
-      {cells.map((el, idx) => (
-        <div
-          style={{
-            backgroundColor:
-              onDropZone && idx.toString() === id ? 'rgba(204, 152, 122, 0.5)' : 'white',
-          }}
-          key={idGenerator()}
-          id={idx.toString()}
-          className="w-full"
-          onDragLeave={() => setOnDropZone(false)}
-          onDragOver={(e) => handleDragOver(e)}
-          onDrop={(e) => handleDrop(e, el.id)}
-        >
-          {el.cell}
-        </div>
-      ))}
+    <div className="p-1 border border-black" id={cellsContainerId}>
+      <div className="w-full flex gap-x-5">
+        {cells.map((el, idx) => (
+          <div
+            style={{
+              backgroundColor:
+                onDropZone && idx.toString() === id ? 'rgba(204, 152, 122, 0.5)' : 'white',
+            }}
+            key={idGenerator()}
+            id={idx.toString()}
+            className="w-full"
+            onDragLeave={() => setOnDropZone(false)}
+            onDragOver={(e) => handleDragOver(e)}
+            onDrop={(e) => handleDrop(e, el.id)}
+          >
+            {el.cell}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
