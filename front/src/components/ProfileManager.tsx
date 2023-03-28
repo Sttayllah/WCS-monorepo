@@ -116,6 +116,7 @@ const ProfileManager = () => {
       </div>
 
       <div className="flex flex-col justify-between gap-y-3 w-1/2">
+        <h1>This is a test</h1>
         <Input
           label={'Pseudo'}
           value={pseudo}
