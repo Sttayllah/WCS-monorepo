@@ -135,9 +135,17 @@ const SectionSelector = () => {
     navigate('/userzzz');
   };
 
+  const [range, setRange] = useState(1);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRange(parseInt(e.target.value));
+  };
+
+  const truc = new Array(3000).fill(0);
+
   return (
     <>
-      {selectedSections.map((e) => e.elem)}
+      {/* {selectedSections.map((e) => e.elem)}
 
       <div className="border-2 border-dashed border-gray-400 p-10 flex items-center justify-center mt-10">
         {!isAddingSection ? (
@@ -169,6 +177,21 @@ const SectionSelector = () => {
             </div>
           </div>
         )}
+      </div> */}
+      <input
+        type="range"
+        value={range}
+        min={1}
+        max={10}
+        step={1}
+        onChange={(e) => handleChange(e)}
+      />
+      <div className="flex flex-wrap">
+        {truc.map((_: any) => (
+          // <div className={`w-${range} h-${range} border border-black`}></div>
+          <div className={`widthAndHeight-${range} border border-black`}></div>
+          // <div className={`w-[3px] h-[3px] border border-black`}></div>
+        ))}
       </div>
     </>
   );
