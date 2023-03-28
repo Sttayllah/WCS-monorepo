@@ -10,7 +10,6 @@ module.exports = {
         mediumweight: '#bababa',
       },
       width: {
-        3: '12px',
         '1/2': '50%',
         '1/3': '33.33333%',
         '1/4': '25%',
@@ -21,9 +20,6 @@ module.exports = {
         '1/9': '11.111%',
         '1/10': '10%',
         '1/11': '9.0909%',
-      },
-      height: {
-        3: '12px',
       },
       boxShadow: {
         sectionHomePage: 'inset 0px 0px 10px 2px black',
